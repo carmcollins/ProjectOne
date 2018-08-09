@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-//when submit button is clicked, push to database
+    //when submit button is clicked, push to database
     $("#submit-btn").on("click", function () {
         var parkName = $("#park-name-input").val().trim();
         var location = $("#location-input").val().trim();
@@ -27,22 +27,42 @@ $(document).ready(function () {
         database.ref().push({
             parkName: parkName,
             location: location,
-            leashCheck: leashCheck,
-            fenceCheck: fenceCheck,
-            swimCheck: swimCheck,
-            shadeCheck: shadeCheck,
-            picnicCheck: picnicCheck,
-            waterCheck: waterCheck
+            options: {
+                leashCheck: leashCheck,
+                fenceCheck: fenceCheck,
+                swimCheck: swimCheck,
+                shadeCheck: shadeCheck,
+                picnicCheck: picnicCheck,
+                waterCheck: waterCheck
+            }
 
         })
 
     });
 
-//when a new park is added send to html
-database.ref().on("child_added", function (childSnapshot) {
-    //var  = childSnapshot.val().;
+    //when a new park is added send to html
+    database.ref().on("child_added", function (childSnapshot) {
+        var parkName = childSnapshot.val().parkName;
+        //var milesAway=
+        // var recentCheckIns=
+        var recentCheckins = childSnapshot.val().parkName;
 
-});
+
+        //push to park page
+        for (var i = 0; i < childSnapshot.options.length; i++) { 
+            if(childSnapshot.options[i]===true){
+                var item= childSnapshot.val().options[i];
+                var newListItem = $("<li>");
+                newListItem.text(item);
 
 
-});
+            }
+        }
+               
+
+        });
+
+
+    });
+
+//onclick for checkin-button
