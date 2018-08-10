@@ -19,6 +19,7 @@ $(document).ready(function () {
     $("#submit-btn").on("click", function (event) {
         event.preventDefault()
         var checkIns = 0;
+        var parkImage = $("#photo-upload").val();
         var parkName = $("#park-name-input").val().trim();
         var location = $("#location-input").val().trim();
         var leashCheck = false;
@@ -73,8 +74,8 @@ $(document).ready(function () {
             shadeCheck: shadeCheck,
             picnicCheck: picnicCheck,
             waterCheck: waterCheck,
-            checkIns: checkIns
-
+            checkIns: checkIns,
+            parkImage: parkImage
 
         });
         //clear input boxes and reset the checkboxes
@@ -85,40 +86,60 @@ $(document).ready(function () {
 
     });
 
-    //when check-in button is pushed
-    $("#checkInBtn").on("click", function (event) {
-        event.preventDefault()
-        checkIns++;
-        //how do we connect the clicks to the specific park in firebase?
+    // //when check-in button is pushed
+    // $("#checkInBtn").on("click", function (event) {
+    //     event.preventDefault()
+    //     checkIns++;
+    //how do we connect the clicks to the specific park in firebase?
 
     //need to do an on click event for when the location pin is clicked do the following:
 
-            //push park info to dog park page
-            database.ref().on("child_added", function (childSnapshot) {
-                var parkName = childSnapshot.val().parkName;
-                var location = childSnapshot.val().location;
-                //var milesAway= need to take location and translate into long and lat and connect to api
-                var leashCheck = childSnapshot.val().leashCheck;
-                var fenceCheck = childSnapshot.val().fenceCheck;
-                var swimCheck = childSnapshot.val().swimCheck;
-                var shadeCheck = childSnapshot.val().shadeCheck;
-                var picnicCheck = childSnapshot.val().picnicCheck;
-                var waterCheck = childSnapshot.val().waterCheck;
-                var checkIns = childSnapshot.val().checkIns;
+    //push park info to dog park page
+    database.ref().on("child_added", function (childSnapshot) {
+        var parkName = childSnapshot.val().parkName;
+        var location = childSnapshot.val().location;
+        var milesAway = 0; //need to figure this one out
+        var leashCheck = childSnapshot.val().leashCheck;
+        var fenceCheck = childSnapshot.val().fenceCheck;
+        var swimCheck = childSnapshot.val().swimCheck;
+        var shadeCheck = childSnapshot.val().shadeCheck;
+        var picnicCheck = childSnapshot.val().picnicCheck;
+        var waterCheck = childSnapshot.val().waterCheck;
+        var checkIns = childSnapshot.val().checkIns;
+        var parkImage = childSnapshot.val().parkImage;
 
-        $("#park-name").text(parkName);
-        //need to populate the miles away  
-        $("#recent-check-ins").text(checkIns);
-        $("#leash").text(leashCheck);
-        $("#fence").text(fenceCheck);
-        $("#swim").text(swimCheck);
-        $("#shade").text(shadeCheck);
-        $("#picnic").text(picnicCheck);
-        $("#water").text(waterCheck);
-         
-    
-            });
+        newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
+        newMediaDiv = $("<div class='media'>");
+        newCardDiv.append(newMediaDiv);
+        newImageTag = $("<img class='align-self-start mr-3' " + "src=" + parkImage + "alt='park-image'>")
+        newMediaDiv.append(newImageTag);
+        newMediaBodyDiv = $("<div class='media-body'>")
+        newMediaDiv.append(newMediaBodyDiv);
+        newMediaBodyDiv.html(
+            "<h5 class='mt-0'>" + parkName +
+            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
+            "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
+            "<a href='park.html' class='btn btn-primary'>" + "More Info" + "</a>"
 
+        )
+        $("#listWrapper").append(newCardDiv);
+
+        //when a pin is clicked populate the park.html page
+        //$("#").on("click", function () {
+            // $("#park-name").text(parkName);
+            // $("#miles-away").text(milesAway);
+            // $("#recent-check-ins").text(checkIns);
+            // $("#leash").text(leashCheck);
+            // $("#fence").text(fenceCheck);
+            // $("#swim").text(swimCheck);
+            // $("#shade").text(shadeCheck);
+            // $("#picnic").text(picnicCheck);
+            // $("#water").text(waterCheck);
+        //});
+
+
+
+    });
 
 
 
@@ -126,6 +147,6 @@ $(document).ready(function () {
 });
 
 
-});
+
 
 
