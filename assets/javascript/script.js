@@ -107,11 +107,12 @@ $(document).ready(function () {
         var waterCheck = childSnapshot.val().waterCheck;
         var checkIns = childSnapshot.val().checkIns;
         var parkImage = childSnapshot.val().parkImage;
+        newParkImage = parkImage.replace("C:\\fakepath\\", "")
 
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
         newMediaDiv = $("<div class='media'>");
         newCardDiv.append(newMediaDiv);
-        newImageTag = $("<img class='align-self-start mr-3' " + "src=" + parkImage + " alt='park-image'>")
+        newImageTag = $("<img class='align-self-start mr-3' " + "src=" + newParkImage + " alt='park-image'>")
         newMediaDiv.append(newImageTag);
         newMediaBodyDiv = $("<div class='media-body'>")
         newMediaDiv.append(newMediaBodyDiv);
