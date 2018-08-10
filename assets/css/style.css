@@ -27,7 +27,7 @@
 }
 
 #map {
-    height: 550px;
+    height: 750px;
     width: 100%;
     background-color: gray;
 }
@@ -37,5 +37,14 @@
 }
 
 .btn {
-    width: 200px;
+    width: 100px;
+}
+
+.responsive {
+    width: 100%;
+    height: auto;
+}
+
+th {
+    font-weight: bold;
 }
