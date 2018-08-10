@@ -129,4 +129,3 @@ $(document).ready(function () {
 });
 
 
-//onclick for checkin-button
