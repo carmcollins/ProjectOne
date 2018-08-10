@@ -1,34 +1,3 @@
-
-// Info for weather page
-var APIKey = "11631bfd75b571a520255fbeaeaeef02";
-var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=austin&appid=" + APIKey;
-
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function(response) {
-    // Logs the object
-    console.log(response);
-
-    $("#description").text(response.weather[0].main);
-    
-    var sunriseTime = moment(response.sys.sunrise, "X").format("h:mm A");
-    var sunsetTime = moment(response.sys.sunset, "X").format("h:mm A");
-
-
-    $("#sunrise-time").text(sunriseTime);
-    $("#sunset-time").text(sunsetTime);
-    
-    // Adds humidity and wind to HTML
-    $("#humidity").text(response.main.humidity + "%");
-    $("#wind").text(response.wind.speed + " MPH"); 
-
-    // Converting temp from Kelvin to Farenheit
-    var kTemp = response.main.temp;
-    var fTemp = Math.floor((kTemp - 273.15) * 1.80 + 32);
-    $("#temp").text(fTemp + " F");
-    
-
 $(document).ready(function () {
 
     //initialize firebase    
@@ -142,7 +111,7 @@ $(document).ready(function () {
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
         newMediaDiv = $("<div class='media'>");
         newCardDiv.append(newMediaDiv);
-        newImageTag = $("<img class='align-self-start mr-3' " + "src=" + parkImage + " alt='park-image'>")
+        newImageTag = $("<img class='align-self-start mr-3' " + "src=" + parkImage + "alt='park-image'>")
         newMediaDiv.append(newImageTag);
         newMediaBodyDiv = $("<div class='media-body'>")
         newMediaDiv.append(newMediaBodyDiv);
@@ -150,23 +119,23 @@ $(document).ready(function () {
             "<h5 class='mt-0'>" + parkName +
             "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
             "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
-            "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>"
+            "<a href='park.html' class='btn btn-primary'>" + "More Info" + "</a>"
 
         )
         $("#listWrapper").append(newCardDiv);
 
-        //when more info is clicked on list page populate the park.html page
-        $(document).on("click", ".more-info", function () {
-            $("#park-name").text(parkName);
-            $("#miles-away").text(milesAway);
-            $("#recent-check-ins").text(checkIns);
-            $("#leash").text(leashCheck);
-            $("#fence").text(fenceCheck);
-            $("#swim").text(swimCheck);
-            $("#shade").text(shadeCheck);
-            $("#picnic").text(picnicCheck);
-            $("#water").text(waterCheck);
-        });
+        //when a pin is clicked populate the park.html page
+        //$("#").on("click", function () {
+            // $("#park-name").text(parkName);
+            // $("#miles-away").text(milesAway);
+            // $("#recent-check-ins").text(checkIns);
+            // $("#leash").text(leashCheck);
+            // $("#fence").text(fenceCheck);
+            // $("#swim").text(swimCheck);
+            // $("#shade").text(shadeCheck);
+            // $("#picnic").text(picnicCheck);
+            // $("#water").text(waterCheck);
+        //});
 
 
 
@@ -175,5 +144,9 @@ $(document).ready(function () {
 
 
 
-
 });
+
+
+
+
+
