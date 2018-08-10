@@ -1,3 +1,3 @@
-# ProjectOne
+# Google API
 
-working on nav buttons
+HTML and JS files for GoogleMarker
