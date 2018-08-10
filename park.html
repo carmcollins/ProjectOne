@@ -8,7 +8,7 @@
     <!-- BOOTSTRAP -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- FONT AWESOME ICONS -->
-    <link rel=“stylesheet” href=“https://use.fontawesome.com/releases/v5.2.0/css/all.css” integrity=“sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ” crossorigin=“anonymous”>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- OUR CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     <!-- JQUERY -->
@@ -18,52 +18,31 @@
 </head>
 <body>
     <!-- Header / Nav -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="index.html">Tailwag</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="add-park.html">Add A Park</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="fave-parks.html">My Favorite Parks</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- Main Content -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card mt-3 mb-3">
-                    <img class="card-img-top" src="http://placehold.it/400x200" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><span id="park-name">Park Name</span></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><span id="miles-away">10</span> miles away</h6>
-                        <p class="card-text">Recent Check Ins: <span id="recent-check-ins">10</span></p>
-                        <a href="#" class="btn btn-primary">Check In</a>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><span class="features-li">Off leash</span></li>
-                        <li class="list-group-item"><span class="features-li">Fenced in</span></li>
-                        <li class="list-group-item"><span class="features-li">Swimming hole</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <div class="icon-bar fixed-top">
+        <a href="index.html"><i class="fa fa-map-marker"></i></a> 
+        <a href="list-view.html"><i class="fa fa-list-ul"></i></a> 
+        <a class="active" href="park.html"><i class="fa fa-paw"></i></a> 
+        <a href="fave-parks.html"><i class="fa fa-heart"></i></a>
+        <a href="add-park.html"><i class="fa fa-plus"></i></a> 
     </div>
-    <!--Footer -->
-    <!-- <nav class="navbar navbar-light bg-light fixed-bottom">
-        <span class="navbar-text">
-            Weather Forecast
-        </span>
-    </nav> -->
+    <!-- Main Content -->
+    <div class="wrapper">
+        <img class="card-img-top" src="http://placehold.it/400x250">
+        <div class="card-body">
+            <h2 class="card-title"><span id="park-name">Park Name</span></h2>
+            <h6 class="card-subtitle mb-2 text-muted"><span id="miles-away">10</span> miles away</h6>
+            <p class="card-text">Recent Check Ins: <span id="recent-check-ins">10</span></p>
+            <a href="#" class="btn btn-primary">Check In</a>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li">Off leash</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li">Fenced in</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li">Swimming hole</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li">Shaded area</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li">Picnic tables</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li">Water fountain</span></li>
+        </ul>
+    </div>
     
     <!-- BOOTSTRAP JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

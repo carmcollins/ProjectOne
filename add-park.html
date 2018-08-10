@@ -8,7 +8,7 @@
     <!-- BOOTSTRAP -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- FONT AWESOME ICONS -->
-    <link rel=“stylesheet” href=“https://use.fontawesome.com/releases/v5.2.0/css/all.css” integrity=“sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ” crossorigin=“anonymous”>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- OUR CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     <!-- JQUERY -->
@@ -18,85 +18,62 @@
 </head>
 <body>
     <!-- Header / Nav -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="index.html">Tailwag</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="add-park.html">Add A Park</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="fave-parks.html">My Favorite Parks</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div class="icon-bar fixed-top">
+        <a href="index.html"><i class="fa fa-map-marker"></i></a> 
+        <a href="list-view.html"><i class="fa fa-list-ul"></i></a> 
+        <a href="park.html"><i class="fa fa-paw"></i></a> 
+        <a href="fave-parks.html"><i class="fa fa-heart"></i></a>
+        <a class="active" href="add-park.html"><i class="fa fa-plus"></i></a> 
+    </div>
     <!-- Main Content -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card mt-3 mb-3">
-                <div class="card-body">
-                <h3 class="text-center">Add A New Park</h3>
-                <form>
-                    <div class="form-group">
-                        <label for="park-name-input">Park Name</label>
-                        <input type="text" class="form-control" id="park-name-input" aria-describedby="emailHelp" placeholder="Name your park">
-                    </div>
-                    <div class="form-group">
-                        <label for="location-input">Location</label>
-                        <input type="text" class="form-control" id="location-input" placeholder="Enter your park address">
-                    </div>
-                    <div class="form-group">
-                        <label>Features</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="leash-check">
-                            <label class="form-check-label" for="leash-check">Off leash</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="fence-check">
-                            <label class="form-check-label" for="fence-check">Fenced in</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="swim-check">
-                            <label class="form-check-label" for="swim-check">Swimming hole</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="shade-check">
-                            <label class="form-check-label" for="shade-check">Shaded areas</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="picnic-check">
-                            <label class="form-check-label" for="picnic-check">Picnic tables</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="water-check">
-                            <label class="form-check-label" for="water-check">Water fountains</label>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlFile1">Example file input</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
-                </form>
+    <div class="wrapper container-fluid">
+        <div class="card card-body mt-3 mb-3">
+            <h2 class="text-center">Add A New Park</h2>
+            <br>
+            <form>
+                <div class="form-group">
+                    <label for="park-name-input" class="form-label">Park Name</label>
+                    <input type="text" class="form-control" id="park-name-input">
                 </div>
+                <div class="form-group">
+                    <label for="location-input" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location-input">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label class="form-label">Features</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="leash-check">
+                        <label class="form-check-label" for="leash-check">Off leash</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="fence-check">
+                        <label class="form-check-label" for="fence-check">Fenced in</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="swim-check">
+                        <label class="form-check-label" for="swim-check">Swimming hole</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="shade-check">
+                        <label class="form-check-label" for="shade-check">Shaded areas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="picnic-check">
+                        <label class="form-check-label" for="picnic-check">Picnic tables</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="water-check">
+                        <label class="form-check-label" for="water-check">Water fountains</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="photo-upload" class="form-label">Upload A Photo</label>
+                    <input type="file" class="form-control-file" id="photo-upload">
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+            </form>
         </div>
     </div>
-    <!--Footer -->
-    <!-- <nav class="navbar navbar-light bg-light fixed-bottom">
-        <span class="navbar-text">
-            Weather Forecast
-        </span>
-    </nav> -->
     
     <!-- BOOTSTRAP JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
