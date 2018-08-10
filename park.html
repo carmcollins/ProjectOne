@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
 <head>
     <meta charset="utf-8" />
@@ -21,27 +20,36 @@
 <body>
     <!-- Header / Nav -->
     <div class="icon-bar fixed-top">
-        <a class="active" href="index.html"><i class="fa fa-map-marker"></i></a> 
+        <a href="index.html"><i class="fa fa-map-marker"></i></a> 
         <a href="list-view.html"><i class="fa fa-list-ul"></i></a> 
-        <a href="park.html"><i class="fa fa-paw"></i></a> 
+        <a class="active" href="park.html"><i class="fa fa-paw"></i></a> 
         <a href="weather.html"><i class="fa fa-sun-o"></i></a>
         <a href="add-park.html"><i class="fa fa-plus"></i></a> 
     </div>
     <!-- Main Content -->
     <div class="wrapper">
-        <div id="map"></div>
+        <img class="card-img-top" src="http://placehold.it/400x250">
+        <div class="card-body">
+            <h2 class="card-title"><span id="park-name">Park Name</span></h2>
+            <h6 class="card-subtitle mb-2 text-muted"><span id="miles-away">10</span> miles away</h6>
+            <p class="card-text">Recent Check Ins: <span id="recent-check-ins">10</span></p>
+            <a href="#" class="btn btn-primary">Check In</a>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li" id="leash">Off leash</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li" id="fence" >Fenced in</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li" id="swim">Swimming hole</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li" id="shade">Shaded area</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li" id="picnic" >Picnic tables</span></li>
+            <li class="list-group-item"><i class="fa fa-check" aria-hidden="true"></i> <span class="features-li" id="water">Water fountain</span></li>
+        </ul>
     </div>
     
     <!-- BOOTSTRAP JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <!-- GOOGLE MAPS JS -->
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0N9-tpLZLryr1_wcWc2EGbNcqnwRbQG0&callback=initMap">
-    </script>
     <!-- OUR JAVASCRIPT -->
     <script src="assets/javascript/script.js"></script>
 </body>
 </html>
-
