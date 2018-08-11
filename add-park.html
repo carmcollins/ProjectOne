@@ -3,80 +3,83 @@
 <head>
     <meta charset="utf-8" />
     <title>Tailwag</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS RESET -->
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
     <!-- BOOTSTRAP -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- FONT AWESOME ICONS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <!-- OUR CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- MOMENT JS -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
 </head>
 <body>
     <!-- Header / Nav -->
     <div class="icon-bar fixed-top">
-        <a href="index.html"><i class="fa fa-map-marker"></i></a> 
-        <a href="list-view.html"><i class="fa fa-list-ul"></i></a> 
-        <a href="park.html"><i class="fa fa-paw"></i></a> 
-        <a href="fave-parks.html"><i class="fa fa-heart"></i></a>
-        <a class="active" href="add-park.html"><i class="fa fa-plus"></i></a> 
+        <a href="index.html"><i class="fas fa-map-marker-alt"></i></a> 
+        <a href="list-view.html"><i class="fas fa-list-ul"></i></a> 
+        <a href="park.html"><i class="fas fa-paw"></i></a> 
+        <a href="weather.html"><i class="fas fa-sun"></i></a>
+        <a class="active" href="add-park.html"><i class="fas fa-plus"></i></a>
     </div>
     <!-- Main Content -->
     <div class="wrapper container-fluid">
-        <div class="card card-body mt-3 mb-3">
-            <h2 class="text-center">Add A New Park</h2>
-            <br>
-            <form>
-                <div class="form-group">
-                    <label for="park-name-input" class="form-label">Park Name</label>
-                    <input type="text" class="form-control" id="park-name-input">
-                </div>
-                <div class="form-group">
-                    <label for="location-input" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Features</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="leash-check">
-                        <label class="form-check-label" for="leash-check">Off leash</label>
+        <div class="card mt-3 mb-3">
+            <img class="card-img-top" src="assets/photos/zilker.jpg" alt="zilker">
+            <div class="card-body">
+                <h1 class="text-center">Add A New Park</h1>
+                <br>
+                <form>
+                    <div class="form-group">
+                        <label for="park-name-input" class="form-label">Park Name</label>
+                        <input type="text" class="form-control" id="park-name-input">
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="fence-check">
-                        <label class="form-check-label" for="fence-check">Fenced in</label>
+                    <div class="form-group">
+                        <label for="location-input" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location-input">
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="swim-check">
-                        <label class="form-check-label" for="swim-check">Swimming hole</label>
+                    <div class="form-group">
+                        <label class="form-label">Features</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="leash-check">
+                            <label class="form-check-label" for="leash-check">Off leash</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="fence-check">
+                            <label class="form-check-label" for="fence-check">Fenced in</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="swim-check">
+                            <label class="form-check-label" for="swim-check">Swimming hole</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="shade-check">
+                            <label class="form-check-label" for="shade-check">Shaded areas</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="picnic-check">
+                            <label class="form-check-label" for="picnic-check">Picnic tables</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="water-check">
+                            <label class="form-check-label" for="water-check">Water fountains</label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="shade-check">
-                        <label class="form-check-label" for="shade-check">Shaded areas</label>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="picnic-check">
-                        <label class="form-check-label" for="picnic-check">Picnic tables</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="water-check">
-                        <label class="form-check-label" for="water-check">Water fountains</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="photo-upload" class="form-label">Upload A Photo</label>
-                    <input type="file" class="form-control-file" id="photo-upload">
-                </div>
-                <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     
     <!-- BOOTSTRAP JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <!-- OUR JAVASCRIPT -->
