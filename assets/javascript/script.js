@@ -272,12 +272,12 @@ database.ref().on("child_added", function (childSnapshot) {
     newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
     newMediaDiv = $("<div class='media'>");
     newCardDiv.append(newMediaDiv);
+    
     newMediaBodyDiv = $("<div class='media-body'>")
     newMediaDiv.append(newMediaBodyDiv);
     newMediaBodyDiv.html(
         "<h5 class='mt-0'>" + parkName +
         "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
-        "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
         "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>"
 
     )
