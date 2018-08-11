@@ -268,13 +268,10 @@ database.ref().on("child_added", function (childSnapshot) {
     var picnicCheck = childSnapshot.val().picnicCheck;
     var waterCheck = childSnapshot.val().waterCheck;
     var checkIns = childSnapshot.val().checkIns;
-    var parkImage = childSnapshot.val().parkImage;
 
     newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
     newMediaDiv = $("<div class='media'>");
     newCardDiv.append(newMediaDiv);
-    newImageTag = $("<img class='align-self-start mr-3' " + "src=" + parkImage + " alt='park-image'>")
-    newMediaDiv.append(newImageTag);
     newMediaBodyDiv = $("<div class='media-body'>")
     newMediaDiv.append(newMediaBodyDiv);
     newMediaBodyDiv.html(
