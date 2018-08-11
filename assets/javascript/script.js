@@ -10,16 +10,24 @@ var data = {
 function initMap() {
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 30.307182, lng: -97.755996 },
+        center: {
+            lat: 30.307182,
+            lng: -97.755996
+        },
         zoom: 12,
         styles: [{
-            featureType: 'poi',
-            stylers: [{ visibility: 'off' }]  // Turn off POI.
-        },
-        {
-            featureType: 'transit.station',
-            stylers: [{ visibility: 'off' }]  // Turn off bus, train stations etc.
-        }],
+                featureType: 'poi',
+                stylers: [{
+                    visibility: 'off'
+                }] // Turn off POI.
+            },
+            {
+                featureType: 'transit.station',
+                stylers: [{
+                    visibility: 'off'
+                }] // Turn off bus, train stations etc.
+            }
+        ],
         disableDoubleClickZoom: true,
         streetViewControl: false,
 
@@ -38,8 +46,7 @@ function initMap() {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pos =
-            {
+            var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
@@ -60,10 +67,9 @@ function initMap() {
             // infoWindow.open(map);
             map.setCenter(pos);
         }, function () {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
-    }
-    else {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
@@ -78,28 +84,40 @@ function initMap() {
         // },
 
         {
-            coords: { lat: 30.291163, lng: -97.787247 },
+            coords: {
+                lat: 30.291163,
+                lng: -97.787247
+            },
             title: '<h1>1</h1>'
 
         },
 
         {
 
-            coords: { lat: 30.249140, lng: -97.736471 },
+            coords: {
+                lat: 30.249140,
+                lng: -97.736471
+            },
             title: '<h1>2</h1>'
 
         },
 
         {
 
-            coords: { lat: 30.263507, lng: -97.753170 },
+            coords: {
+                lat: 30.263507,
+                lng: -97.753170
+            },
             title: '<h1>3</h1>'
 
         },
 
         {
 
-            coords: { lat: 30.266909, lng: -97.772870 },
+            coords: {
+                lat: 30.266909,
+                lng: -97.772870
+            },
             title: '<h1>4</h1>'
 
 
@@ -141,15 +159,17 @@ function initMap() {
 
             //create info window to pop up over marker
             var infoWindow = new google.maps.InfoWindow({
-                content: '<div id="infoWindow">'
-                    + '<div id="bodyContent">'
-                    + '<h3>' + 'marker.title(FIX)' + '</h3>'
-                    + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
+                content: '<div id="infoWindow">' +
+                    '<div id="bodyContent">' +
+                    '<h3>' + 'marker.title(FIX)' + '</h3>' +
+                    '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>' //replace X with num clicks in last hour for specific park
 
-                    + '<a href="../../park.html" id="moreInfo">More Info</a>'    //needs to populate with 'this' park.html
-                    + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
-                    + '</div>'
-                    + '</div>'
+                    +
+                    '<a href="../../park.html" id="moreInfo">More Info</a>' //needs to populate with 'this' park.html
+                    +
+                    '<button id="distance">Drive distance: ' + 'X miles' + '</button>' +
+                    '</div>' +
+                    '</div>'
             });
 
         }
@@ -202,7 +222,7 @@ $.ajax({
     method: "GET"
 }).then(function (response) {
     // Logs the object
-    console.log(response);
+    // console.log(response);
 
     $("#description").text(response.weather[0].main);
 
@@ -274,8 +294,8 @@ function initFirebase(heatmap) {
     clicks.on('child_removed', function (snapshot, prevChildKey) {
         var heatmapData = heatmap.getData();
         var i = 0;
-        while (snapshot.val().lat != heatmapData.getAt(i).lat()
-            || snapshot.val().lng != heatmapData.getAt(i).lng()) {
+        while (snapshot.val().lat != heatmapData.getAt(i).lat() ||
+            snapshot.val().lng != heatmapData.getAt(i).lng()) {
             i++;
         }
         heatmapData.removeAt(i);
@@ -298,16 +318,16 @@ function getTimestamp(addClick) {
     // Reference to location for saving the last click time.
     var ref = database.ref('last_message/' + data.sender);
 
-    ref.onDisconnect().remove();  // Delete reference from firebase on disconnect.
+    ref.onDisconnect().remove(); // Delete reference from firebase on disconnect.
 
 
     // Set value to timestamp.
     ref.set(firebase.database.ServerValue.TIMESTAMP, function (err) {
-        if (err) {  // Write to last message was unsuccessful.
+        if (err) { // Write to last message was unsuccessful.
             console.log(err);
-        } else {  // Write to last message was successful.
+        } else { // Write to last message was successful.
             ref.once('value', function (snap) {
-                addClick(snap.val());  // Add click with same timestamp.
+                addClick(snap.val()); // Add click with same timestamp.
             }, function (err) {
                 console.warn(err);
             });
@@ -325,10 +345,9 @@ function addToFirebase(data) {
         // Add the new timestamp to the record data.
         data.timestamp = timestamp;
         var ref = database.ref('clicks').push(data, function (err) {
-            if (err) {  // Data was not written to firebase.
+            if (err) { // Data was not written to firebase.
                 console.warn(err);
             }
         });
     });
 }
-
