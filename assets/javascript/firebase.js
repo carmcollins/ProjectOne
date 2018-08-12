@@ -9,6 +9,7 @@ $(document).ready(function () {
         storageBucket: "",
         messagingSenderId: "542472737315"
     };
+
     firebase.initializeApp(config);
 
     var database = firebase.database();
