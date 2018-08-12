@@ -97,8 +97,6 @@ $(document).ready(function () {
         var waterCheck = childSnapshot.val().waterCheck;
         var checkIns = childSnapshot.val().checkIns;
 
-
-
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
         newMediaDiv = $("<div class='media'>");
         newCardDiv.append(newMediaDiv);
@@ -110,48 +108,45 @@ $(document).ready(function () {
             "<h5 class='mt-0'>" + parkName +
             "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
             "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
-            "<a href='park.html' class='btn btn-primary more-info' onclick='moreInfo(this)'>" + "More Info" + "</a>")
+            "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>")
         $("#listWrapper").append(newCardDiv);
 
-        //when more info is clicked on list page populate the park.html page
-        // $(".more-info").on("click", function () {
-
-        //     $("#park-name").text(parkName);
-        //     $("#miles-away").text(milesAway);
-        //     $("#recent-check-ins").text(checkIns);
-        //     $("#leash").text(leashCheck);
-        //     $("#fence").text(fenceCheck);
-        //     $("#swim").text(swimCheck);
-        //     $("#shade").text(shadeCheck);
-        //     $("#picnic").text(picnicCheck);
-        //     $("#water").text(waterCheck);
+        // when more info is clicked on list page populate the park.html page
+        // $("#park-name").html(this.parkName);
+        // $("#park-name").text(parkName);
+        // $("#miles-away").text(milesAway);
+        // $("#recent-check-ins").text(checkIns);
+        // $("#leash").text(leashCheck);
+        // $("#fence").text(fenceCheck);
+        // $("#swim").text(swimCheck);
+        // $("#shade").text(shadeCheck);
+        // $("#picnic").text(picnicCheck);
+        // $("#water").text(waterCheck);
         //     console.log("park name inside onclick: " + parkName) // this prints all parkNames from list-view.html
 
-        // }); // end of .more-info onClick
+        // console.log(parkName); // lists all named parks
 
-        // issues!!!!!!
-        // fyi - having moreInfo() outside of database.ref() stops the repeative function calls per list item. one call, not three
-        console.log(parkName); // lists all named parks
+    }); // end of database.ref()]
 
-    }); // end of database.ref()
+    // console.log("undefined?" + parkName); // undefined
 
-    console.log("undefined?" + parkName); // undefined
-
-    function moreInfo() {
-        var name = this.parkName;
-        $("#park-name").text(name);
-        // $("#park-name").text(this.parkName);
-        // $(this).text(milesAway);
-        console.log("in the moreInfo function");
-        console.log(parkName); // undefined
-    }
-
-
+    ////****** .more-info will not fire the below simple console.log*****   look into that more :/ */
     $(".more-info").on("click", function () {
-        moreInfo();
-    })
+        var number = 15;
+        console.log(number);
+        // console.log("moreInfo function :" + this);
+
+    }); // end of .more-info onClick
 
 }); // end of document.ready
+
+
+
+// ***********************issues***********************
+// fyi - having moreInfo() outside of database.ref() stops the repeative function calls per list item. one call, not three
+
+// ***********************
+// stuff that didn't work...
 
 // var indiv = $(this).html("<h5 class='mt-0'>" + parkName +
 // "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
@@ -159,3 +154,35 @@ $(document).ready(function () {
 // "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>");
 // console.log(indiv);
 // $("#card-body").text(indiv);
+
+// pushing to indivdual page
+// $(".more-info").on("click", function (event) {
+//     event.preventDefault();
+//     var parkName = $("#park-name").append(parkName);
+//     var checkIns = $("#recent-check-ins").append(checkIns);
+//     console.log(indParkName);
+
+// moreInfo();
+// console.log(parkName + "inside .more-info")
+// database.ref().push({
+// parkName: parkName,
+// location: location,
+// leashCheck: leashCheck,
+// fenceCheck: fenceCheck,
+// swimCheck: swimCheck,
+// shadeCheck: shadeCheck,
+// picnicCheck: picnicCheck,
+// waterCheck: waterCheck,
+// checkins: checkIns
+// });
+// })
+
+// function moreInfo() {
+//     var name = this.parkName;
+//     $("#park-name").text(name);
+//     // $("#park-name").text(this.parkName);
+//     // $(this).text(milesAway);
+//     console.log("in the moreInfo function");
+//     console.log(name); // undefined
+// }
+// moreInfo()
