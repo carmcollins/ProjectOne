@@ -125,18 +125,15 @@ $(document).ready(function () {
         //     console.log("park name inside onclick: " + parkName) // this prints all parkNames from list-view.html
 
         // console.log(parkName); // lists all named parks
-
+        // *********************** UPDATE *********************** kinda working!!!!!!!!
+        // It will console the name you click, but also all names that follow in the database
+        $(".more-info").on("click", function () {
+            var number = 15;
+            console.log(this.parkName); //undefined
+        }); // end of .more-info onClick
     }); // end of database.ref()]
 
     // console.log("undefined?" + parkName); // undefined
-
-    ////****** .more-info will not fire the below simple console.log*****   look into that more :/ */
-    $(".more-info").on("click", function () {
-        var number = 15;
-        console.log(number);
-        // console.log("moreInfo function :" + this);
-
-    }); // end of .more-info onClick
 
 }); // end of document.ready
 
