@@ -70,8 +70,8 @@ $(document).ready(function () {
 
         database.ref('parks').push({
             parkName: parkName,
-            lat: parkLat,
-            lng: parkLng,
+            parkLat: parkLat,
+            parkLng: parkLng,
             leashCheck: leashCheck,
             fenceCheck: fenceCheck,
             swimCheck: swimCheck,
@@ -91,7 +91,7 @@ $(document).ready(function () {
     });
 
     //push park info to dog park page
-    database.ref().on("child_added", function (childSnapshot) {
+    database.ref('parks').on("child_added", function (childSnapshot) {
         var parkName = childSnapshot.val().parkName;
         var milesAway = 0; //need to figure this one out
         var parkKey = childSnapshot.key;
