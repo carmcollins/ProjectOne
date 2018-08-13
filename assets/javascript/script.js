@@ -1,15 +1,4 @@
 
-// //Initialize firebase
-var config = {
-    apiKey: "AIzaSyDLGiE6oCc8eXFJ_-7BhxatZWaf0VURcZo",
-    authDomain: "test-project-da478.firebaseapp.com",
-    databaseURL: "https://test-project-da478.firebaseio.com",
-    projectId: "test-project-da478",
-    storageBucket: "test-project-da478.appspot.com",
-    messagingSenderId: "1034722884969"
-  };
-firebase.initializeApp(config, "checkIns");
-
 
 // Reference to the clicks in Firebase.
 // var clicks = database.ref('clicks');
@@ -24,6 +13,14 @@ var data = {
     lng: null
 };
 
+var heatmap = null;
+database.ref().on("child_added", function(childSnapshot){
+    var title = childSnapshot.parkName;
+    var position = childSnapshot.location;
+    console.log(title);
+    console.log(position);
+    
+});
 
 
 //CREATE INITIAL MAP WITH MARKERS 
@@ -121,49 +118,69 @@ function initMap() {
         }
     ];
 
+  
+  
 
-    //create info window to pop up over marker
-    var infoWindow = new google.maps.InfoWindow({
-        content: '<div id="infoWindow">'
-            + '<div id="bodyContent">'
-            + '<h3>' + 'marker.title(FIX)' + '</h3>'
-            + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
-
-            + '<a href="../../park.html" id="moreInfo">More Info</a>'    //needs to populate with 'this' park.html
-            + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
-            + '</div>'
-            + '</div>'
-    });
-
-    var marker;
 
     // marker.setMap(map);
-    for (var i = 0; i < markers.length; i++) {
-        marker = new google.maps.Marker({
+    for (var j = 0; j < markers.length; j++) {
+        createMarker(j);
+    };
+
+    function createMarker(i){
+
+    
+        var marker = new google.maps.Marker({
             position: markers[i].coords,
             map: map,
-            icon: markers.iconImage,
-            title: markers.title
+            icon: markers[i].iconImage,
+            title: markers[i].title,
+            // parkKey: parkKey
         });
         console.log(markers[i]);
         marker.setIcon(markers[i].iconImage);
         // addMarker(markers[i]);
         console.log('marker added');
 
-        marker.addListener('click', (function(e) {
+        //create info window to pop up over marker
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<div id="infoWindow">'
+                + '<div id="bodyContent">'
+                + '<h3>' + marker.title + '</h3>'
+                + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
+
+                + "<form method='get' action='park.html'>" +
+                "<button type='submit button' class='btn btn-primary more-info' data-key='" + "marker.parkKey" + "'" + ">" + "More Info" + "</button>" 
+                + "</form>"  //needs to populate with 'this' park.html
+                + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
+                + '</div>'
+                + '</div>'
+        });
+
+        marker.addListener('click', function(e) {
             
             console.log("marker click")
             infoWindow.open(map, marker);
-
+    
             $('#checkIn').bind('click', function (e) {
                 console.log("check in")
                 data.lat = e.latLng.lat();
                 data.lng = e.latLng.lng();
                 addToFirebase(data);
             });  
-        }));
-    };
+        });
+       
+  
+    }
 
+
+
+
+    heatmap = new google.maps.visualization.HeatmapLayer({
+        data: [],
+        map: map,
+        radius: 16
+    });
 
 } // end init map 
 
@@ -175,11 +192,11 @@ function initMap() {
 
 
 // Create a heatmap.
-var heatmap = new google.maps.visualization.HeatmapLayer({
-    data: [],
-    map: map,
-    radius: 16
-});
+// var heatmap = new google.maps.visualization.HeatmapLayer({
+//     data: [],
+//     map: map,
+//     radius: 16
+// });
 
 
 
