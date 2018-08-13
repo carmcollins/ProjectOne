@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $(".check-out").hide();
+
     var config = {
         apiKey: "AIzaSyBIdeaYIvc47L5bC-9iBvfqZIu8Mt7BAcs",
         authDomain: "tailwag-fa1c7.firebaseapp.com",
@@ -13,11 +15,9 @@ $(document).ready(function () {
     var database = firebase.database();
 
     var keyNeeded = sessionStorage.getItem("key")
-    console.log("keyNeeded: " , keyNeeded);
-    
-    database.ref('parks').child(keyNeeded).on('value', function(snapshot){
-        console.log(snapshot.val().parkName);
-    
+
+
+    database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
         $("#park-name").text(snapshot.val().parkName);
         $("#miles-away").text(snapshot.val().milesAway);
         $("#recent-check-ins").text(snapshot.val().checkIns);
@@ -28,6 +28,41 @@ $(document).ready(function () {
         $("#picnic").text(snapshot.val().picnicCheck);
         $("#water").text(snapshot.val().waterCheck);
 
-     });
+    });
+   
+var checkIns= $("#recent-check-ins").val();
+console.log(checkIns);
+
+    $(document).on("click", ".check-in", function (event) {
+        event.preventDefault()
+        checkIns++;
+        $(".check-in").hide();
+        $(".check-out").show();
+
+        database.ref('parks').child(keyNeeded).update({
+            checkIns: checkIns
+        });
+        database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
+            $("#recent-check-ins").text(snapshot.val().checkIns);
+        });
+
+    });
+
+    $(document).on("click", ".check-out", function (event) {
+        event.preventDefault()
+        checkIns--;
+        $(".check-out").hide();
+        $(".check-in").show();
+
+        database.ref('parks').child(keyNeeded).update({
+            checkIns: checkIns
+        });
+        database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
+            $("#recent-check-ins").text(snapshot.val().checkInCount);
+        });
+
+    });
+
+
 
 }); 

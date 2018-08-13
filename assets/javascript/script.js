@@ -123,8 +123,8 @@ function initMap() {
     ];
     database.ref('parks').on("child_added", function(childSnapshot){
         var title = childSnapshot.val().parkName;
-        var latitude = parseFloat(childSnapshot.val().lat);
-        var longitude = parseFloat(childSnapshot.val().lng);
+        var latitude = parseFloat(childSnapshot.val().parkLat);
+        var longitude = parseFloat(childSnapshot.val().parkLng);
         console.log(title);
         console.log(latitude);
         console.log(longitude);
