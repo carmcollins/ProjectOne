@@ -1,3 +1,20 @@
+
+// //Initialize firebase
+var config = {
+    apiKey: "AIzaSyDLGiE6oCc8eXFJ_-7BhxatZWaf0VURcZo",
+    authDomain: "test-project-da478.firebaseapp.com",
+    databaseURL: "https://test-project-da478.firebaseio.com",
+    projectId: "test-project-da478",
+    storageBucket: "test-project-da478.appspot.com",
+    messagingSenderId: "1034722884969"
+  };
+firebase.initializeApp(config, "checkIns");
+
+
+// Reference to the clicks in Firebase.
+// var clicks = database.ref('clicks');
+var database = firebase.database();
+
 //Data object to be written to Firebase.
 
 var data = {
@@ -6,6 +23,11 @@ var data = {
     lat: null,
     lng: null
 };
+
+
+
+//CREATE INITIAL MAP WITH MARKERS 
+//==================================================================================
 
 function initMap() {
 
@@ -24,17 +46,9 @@ function initMap() {
         streetViewControl: false,
 
     });
-    // var mySpot = {lat:30.2918274,lng:-97.78914559999998};
-    // var marker = new google.maps.Marker({
-    //   	position: mySpot,
-    //   	map: map
-    // 		});
-    // 		marker.addListener('click', function()
-    //  {
-    //  	infoWindow.open(map,marker);
-    //  });
 
-    // infoWindow = new google.maps.InfoWindow;
+
+
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -50,181 +64,116 @@ function initMap() {
             });
 
 
-            //=====================why in if statement?
-
-
-
             marker.setMap(map);
             // infoWindow.setPosition(pos);
             // infoWindow.setContent();
             // infoWindow.open(map);
             map.setCenter(pos);
         }, function () {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
     }
     else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+
     // add marker array
-    var markerss = [
-        //    {
+    var markers = [
 
-        //    	coords: { lat: position.coords.latitude,
-        //                lng: position.coords.longitude },
-
-        //    	content: '<h1> current location </h1>'
-        // },
 
         {
             coords: { lat: 30.291163, lng: -97.787247 },
-            title: '<h1>1</h1>'
+            title: 'Red Bud Isle'
 
         },
 
         {
 
             coords: { lat: 30.249140, lng: -97.736471 },
-            title: '<h1>2</h1>'
+            title: 'Norwood Estates Dog Park'
 
         },
 
         {
 
             coords: { lat: 30.263507, lng: -97.753170 },
-            title: '<h1>3</h1>'
+            title: 'Auditorium Shores Dog Park'
 
         },
 
         {
 
             coords: { lat: 30.266909, lng: -97.772870 },
-            title: '<h1>4</h1>'
+            title: 'Zilker Metropolitan'
 
 
         }
     ];
 
 
+    //create info window to pop up over marker
+    var infoWindow = new google.maps.InfoWindow({
+        content: '<div id="infoWindow">'
+            + '<div id="bodyContent">'
+            + '<h3>' + 'marker.title(FIX)' + '</h3>'
+            + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
 
+            + '<a href="../../park.html" id="moreInfo">More Info</a>'    //needs to populate with 'this' park.html
+            + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
+            + '</div>'
+            + '</div>'
+    });
 
+    var marker;
 
     // marker.setMap(map);
-    for (var i = 0; i < markerss.length; i++) {
-        console.log(markerss[i]);
-        addMarker(markerss[i]);
-        console.log('this worksX');
-    }
-
-
-    //add marker function
-    function addMarker(props) {
-        var marker = new google.maps.Marker({
-            position: props.coords,
+    for (var i = 0; i < markers.length; i++) {
+        marker = new google.maps.Marker({
+            position: markers[i].coords,
             map: map,
-            icon: props.iconImage,
-            title: props.title
+            icon: markers.iconImage,
+            title: markers.title
         });
-        //check for marker function
-        console.log('this works');
-        if (props.iconImage) {
-            //set icon image
-            marker.setIcon(props.iconImage)
-        }
-        // check contant
-        if (props.content) {
-            // console.log(props.content);
-            // var infoWindow = new google.maps.InfoWindow({
-            // 	content:props.content
-            //  })
+        console.log(markers[i]);
+        marker.setIcon(markers[i].iconImage);
+        // addMarker(markers[i]);
+        console.log('marker added');
 
-            //create info window to pop up over marker
-            var infoWindow = new google.maps.InfoWindow({
-                content: '<div id="infoWindow">'
-                    + '<div id="bodyContent">'
-                    + '<h3>' + 'marker.title(FIX)' + '</h3>'
-                    + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
-
-                    + '<a href="../../park.html" id="moreInfo">More Info</a>'    //needs to populate with 'this' park.html
-                    + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
-                    + '</div>'
-                    + '</div>'
-            });
-
-        }
-
-        // Listen for marker click, opens infoWindow, listens for check in click
-        marker.addListener('click', function (e) {
+        marker.addListener('click', (function(e) {
+            
+            console.log("marker click")
             infoWindow.open(map, marker);
 
-            $('#checkIn').bind('click', function () {
+            $('#checkIn').bind('click', function (e) {
                 console.log("check in")
                 data.lat = e.latLng.lat();
                 data.lng = e.latLng.lng();
                 addToFirebase(data);
-            });
-
-        });
-
-        marker.setMap(map);
-
-    }
+            });  
+        }));
+    };
 
 
-} // end init map ------------------------------------------
+} // end init map 
 
 
 
-
-
-//===========================================
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}
+//CREATE HEATMAP 
+//==========================================================================
 
 
 
-
-
-
-
-// Info for weather page
-var APIKey = "11631bfd75b571a520255fbeaeaeef02";
-var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=austin&appid=" + APIKey;
-
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function (response) {
-    // Logs the object
-    console.log(response);
-
-    $("#description").text(response.weather[0].main);
-
-    var sunriseTime = moment(response.sys.sunrise, "X").format("h:mm A");
-    var sunsetTime = moment(response.sys.sunset, "X").format("h:mm A");
-
-
-    $("#sunrise-time").text(sunriseTime);
-    $("#sunset-time").text(sunsetTime);
-
-    // Adds humidity and wind to HTML
-    $("#humidity").text(response.main.humidity + "%");
-    $("#wind").text(response.wind.speed + " MPH");
-
-    // Converting temp from Kelvin to Farenheit
-    var kTemp = response.main.temp;
-    var fTemp = Math.floor((kTemp - 273.15) * 1.80 + 32);
-    $("#temp").text(fTemp + " F");
-
-});
-
-//==============MY SHIT======================================================
 // Create a heatmap.
 var heatmap = new google.maps.visualization.HeatmapLayer({
     data: [],
@@ -234,19 +183,16 @@ var heatmap = new google.maps.visualization.HeatmapLayer({
 
 
 
-
-/**
- * Set up a Firebase with deletion on clicks older than expirySeconds
- * @param {!google.maps.visualization.HeatmapLayer} heatmap The heatmap to
- * which points are added from Firebase.
- */
+//Set up a Firebase with deletion on clicks older than expirySeconds
+// @param {!google.maps.visualization.HeatmapLayer} heatmap The heatmap to
+// which points are added from Firebase.
+ 
 function initFirebase(heatmap) {
 
     // 10 minutes before current time. ----------------------------Need to change to 60 min before current time
     var startTime = new Date().getTime() - (60 * 10 * 1000);
 
-    // Reference to the clicks in Firebase.
-    var clicks = database.ref('clicks');
+    
 
     // Listener for when a click is added.
     clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
@@ -288,12 +234,12 @@ function initFirebase(heatmap) {
 
 
 
-/**
- * Updates the last_message/ path with the current timestamp.
- * @param {function(Date)} addClick After the last message timestamp has been updated,
- *     this function is called with the current timestamp to add the
- *     click to the firebase.
- */
+
+ //Updates the last_message/ path with the current timestamp.
+ //@param {function(Date)} addClick After the last message timestamp has been updated,
+ //    this function is called with the current timestamp to add the
+ //    click to the firebase.
+ 
 function getTimestamp(addClick) {
     // Reference to location for saving the last click time.
     var ref = database.ref('last_message/' + data.sender);
@@ -315,11 +261,11 @@ function getTimestamp(addClick) {
     });
 }
 
-/**
- * Adds a click to firebase.
- * @param {Object} data The data to be added to firebase.
- *     It contains the lat, lng, sender and timestamp.
- */
+
+//Adds a click to firebase.
+//@param {Object} data The data to be added to firebase.
+//   It contains the lat, lng, sender and timestamp.
+
 function addToFirebase(data) {
     getTimestamp(function (timestamp) {
         // Add the new timestamp to the record data.
@@ -331,4 +277,40 @@ function addToFirebase(data) {
         });
     });
 }
+
+
+
+//ADD WEATHER API
+//===========================================================================================
+
+// Info for weather page
+var APIKey = "11631bfd75b571a520255fbeaeaeef02";
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=austin&appid=" + APIKey;
+
+$.ajax({
+    url: queryURL,
+    method: "GET"
+}).then(function (response) {
+    // Logs the object
+    console.log(response);
+
+    $("#description").text(response.weather[0].main);
+
+    var sunriseTime = moment(response.sys.sunrise, "X").format("h:mm A");
+    var sunsetTime = moment(response.sys.sunset, "X").format("h:mm A");
+
+
+    $("#sunrise-time").text(sunriseTime);
+    $("#sunset-time").text(sunsetTime);
+
+    // Adds humidity and wind to HTML
+    $("#humidity").text(response.main.humidity + "%");
+    $("#wind").text(response.wind.speed + " MPH");
+
+    // Converting temp from Kelvin to Farenheit
+    var kTemp = response.main.temp;
+    var fTemp = Math.floor((kTemp - 273.15) * 1.80 + 32);
+    $("#temp").text(fTemp + " F");
+
+});
 
