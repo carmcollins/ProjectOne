@@ -28,41 +28,38 @@ $(document).ready(function () {
         $("#picnic").text(snapshot.val().picnicCheck);
         $("#water").text(snapshot.val().waterCheck);
 
+        var checkIns= snapshot.val().checkIns;
+
+        $(document).on("click", ".check-in", function (event) {
+            event.preventDefault()
+            checkIns++;
+            $(".check-in").hide();
+            $(".check-out").show();
+
+            database.ref('parks').child(keyNeeded).update({
+                checkIns: checkIns
+            });
+            database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
+                $("#recent-check-ins").text(snapshot.val().checkIns);
+            });
+
+        });
+
+        $(document).on("click", ".check-out", function (event) {
+            event.preventDefault()
+            checkIns--;
+            $(".check-out").hide();
+            $(".check-in").show();
+
+            database.ref('parks').child(keyNeeded).update({
+                checkIns: checkIns
+            });
+            database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
+                $("#recent-check-ins").text(snapshot.val().checkInCount);
+            });
+
+        });
+
     });
-   
-var checkIns= $("#recent-check-ins").val();
-console.log(checkIns);
-
-    $(document).on("click", ".check-in", function (event) {
-        event.preventDefault()
-        checkIns++;
-        $(".check-in").hide();
-        $(".check-out").show();
-
-        database.ref('parks').child(keyNeeded).update({
-            checkIns: checkIns
-        });
-        database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
-            $("#recent-check-ins").text(snapshot.val().checkIns);
-        });
-
-    });
-
-    $(document).on("click", ".check-out", function (event) {
-        event.preventDefault()
-        checkIns--;
-        $(".check-out").hide();
-        $(".check-in").show();
-
-        database.ref('parks').child(keyNeeded).update({
-            checkIns: checkIns
-        });
-        database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
-            $("#recent-check-ins").text(snapshot.val().checkInCount);
-        });
-
-    });
-
-
 
 }); 
