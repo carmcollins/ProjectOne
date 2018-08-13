@@ -1,16 +1,18 @@
+//initialize firebase    
+var config = {
+    apiKey: "AIzaSyBIdeaYIvc47L5bC-9iBvfqZIu8Mt7BAcs",
+    authDomain: "tailwag-fa1c7.firebaseapp.com",
+    databaseURL: "https://tailwag-fa1c7.firebaseio.com",
+    projectId: "tailwag-fa1c7",
+    storageBucket: "tailwag-fa1c7.appspot.com",
+    messagingSenderId: "542472737315"
+};
+
+firebase.initializeApp(config);
+
 $(document).ready(function () {
 
-    //initialize firebase    
-    var config = {
-        apiKey: "AIzaSyBIdeaYIvc47L5bC-9iBvfqZIu8Mt7BAcs",
-        authDomain: "tailwag-fa1c7.firebaseapp.com",
-        databaseURL: "https://tailwag-fa1c7.firebaseio.com",
-        projectId: "tailwag-fa1c7",
-        storageBucket: "",
-        messagingSenderId: "542472737315"
-    };
 
-    firebase.initializeApp(config);
 
     var database = firebase.database();
 
