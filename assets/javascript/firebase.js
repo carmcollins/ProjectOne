@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    var checkins = 0;
+    var checkIns = 0;
 
     //when submit button is clicked, push form info to database
     $("#submit-btn").on("click", function (event) {
@@ -73,8 +73,8 @@ $(document).ready(function () {
             shadeCheck: shadeCheck,
             picnicCheck: picnicCheck,
             waterCheck: waterCheck,
-        
-           
+
+
 
         });
         //clear input boxes and reset the checkboxes
@@ -85,60 +85,69 @@ $(document).ready(function () {
 
     });
 
-    // //when check-in button is pushed
-    // $("#checkInBtn").on("click", function (event) {
-    //     event.preventDefault()
-    //     checkIns++;
-    //how do we connect the clicks to the specific park in firebase?
-
-    //need to do an on click event for when the location pin is clicked do the following:
-
     //push park info to dog park page
     database.ref().on("child_added", function (childSnapshot) {
         var parkName = childSnapshot.val().parkName;
         var location = childSnapshot.val().location;
         var milesAway = 0; //need to figure this one out
-        var leashCheck = childSnapshot.val().leashCheck;
-        var fenceCheck = childSnapshot.val().fenceCheck;
-        var swimCheck = childSnapshot.val().swimCheck;
-        var shadeCheck = childSnapshot.val().shadeCheck;
-        var picnicCheck = childSnapshot.val().picnicCheck;
-        var waterCheck = childSnapshot.val().waterCheck;
-        var checkIns = childSnapshot.val().checkIns;
-        
+        // var leashCheck = childSnapshot.val().leashCheck;
+        // var fenceCheck = childSnapshot.val().fenceCheck;
+        // var swimCheck = childSnapshot.val().swimCheck;
+        // var shadeCheck = childSnapshot.val().shadeCheck;
+        // var picnicCheck = childSnapshot.val().picnicCheck;
+        // var waterCheck = childSnapshot.val().waterCheck;
+        // var checkIns = childSnapshot.val().checkIns;
+        var parkKey = childSnapshot.key;
+        console.log(parkKey);
 
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
         newMediaDiv = $("<div class='media'>");
         newCardDiv.append(newMediaDiv);
-        // newImageTag = $("<img class='align-self-start mr-3' " + "src=" + newParkImage + " alt='park-image'>")
-        // newMediaDiv.append(newImageTag);
+        newImageDiv = $("<div class='col-sm-6 p-0'>");
+        newMediaDiv.append(newImageDiv);
+        newImageTag = $("<img class='align-self-start mr-3 responsive' src='assets/photos/pup2.jpeg' alt='pup'>")
+        newImageDiv.append(newImageTag);
+        newBodyDiv = $("<div class='col-sm-6 pl-4 pr-0'>");
+        newMediaDiv.append(newBodyDiv);
         newMediaBodyDiv = $("<div class='media-body'>")
-        newMediaDiv.append(newMediaBodyDiv);
+        newBodyDiv.append(newMediaBodyDiv);
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
-            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
-            "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
-            "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>"
-
+            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" + 
+            //"<form method='get' action='park.html'>" +
+            "<button type='submit button' class='btn btn-primary more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
+            //+ "</form>"
         )
+        //$(".more-info-" + parkKey).attr("key", parkKey);
         $("#listWrapper").append(newCardDiv);
 
+
         //when more info is clicked on list page populate the park.html page
+
+        //});
+
         $(document).on("click", ".more-info", function () {
-            $("#park-name").text(parkName);
-            $("#miles-away").text(milesAway);
-            $("#recent-check-ins").text(checkIns);
-            $("#leash").text(leashCheck);
-            $("#fence").text(fenceCheck);
-            $("#swim").text(swimCheck);
-            $("#shade").text(shadeCheck);
-            $("#picnic").text(picnicCheck);
-            $("#water").text(waterCheck);
+            var key = $(this).attr("data-key");
+            console.log($(this).attr("data-key"));
+
+            database.ref().orderByKey().equalTo(key).on("value", function (snapshot) {
+                console.log("made it here");
+                console.log(snapshot.val());
+                // $("#park-name").text(snapshot.val().parkName);
+                // $("#miles-away").text(snapshot.val().milesAway);
+                // $("#recent-check-ins").text(snapshot.val().checkIns);
+                // $("#leash").text(snapshot.val().leashCheck);
+                // $("#fence").text(snapshot.val().fenceCheck);
+                // $("#swim").text(snapshot.val().swimCheck);
+                // $("#shade").text(snapshot.val().shadeCheck);
+                // $("#picnic").text(snapshot.val().picnicCheck);
+                // $("#water").text(snapshot.val().waterCheck);
+
+            });
         });
 
-
-
     });
+
 
 
 
