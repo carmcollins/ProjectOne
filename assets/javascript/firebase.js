@@ -16,14 +16,15 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    var checkins = 0;
+    var checkIns = 0;
 
     //when submit button is clicked, push form info to database
     $("#submit-btn").on("click", function (event) {
         event.preventDefault()
         var checkIns = 0;
         var parkName = $("#park-name-input").val().trim();
-        var location = $("#location-input").val().trim();
+        var parkLat =  $("#add-park-map").attr("lat");
+        var parkLng =  $("#add-park-map").attr("lng");
         var leashCheck = false;
         if (($("#leash-check").is(":checked"))) {
             leashCheck = ("Off-Leash");
@@ -67,81 +68,69 @@ $(document).ready(function () {
             waterCheck = ("No Water Fountains");
         }
 
-        database.ref().push({
+        database.ref('parks').push({
             parkName: parkName,
-            location: location,
+            lat: parkLat,
+            lng: parkLng,
             leashCheck: leashCheck,
             fenceCheck: fenceCheck,
             swimCheck: swimCheck,
             shadeCheck: shadeCheck,
             picnicCheck: picnicCheck,
             waterCheck: waterCheck,
-        
-           
+
+
 
         });
         //clear input boxes and reset the checkboxes
         $("#park-name-input").val("");
-        $("#location-input").val("");;
         $("input[type=checkbox]").prop('checked', false);
 
 
     });
 
-    // //when check-in button is pushed
-    // $("#checkInBtn").on("click", function (event) {
-    //     event.preventDefault()
-    //     checkIns++;
-    //how do we connect the clicks to the specific park in firebase?
-
-    //need to do an on click event for when the location pin is clicked do the following:
-
     //push park info to dog park page
     database.ref().on("child_added", function (childSnapshot) {
         var parkName = childSnapshot.val().parkName;
-        var location = childSnapshot.val().location;
         var milesAway = 0; //need to figure this one out
-        var leashCheck = childSnapshot.val().leashCheck;
-        var fenceCheck = childSnapshot.val().fenceCheck;
-        var swimCheck = childSnapshot.val().swimCheck;
-        var shadeCheck = childSnapshot.val().shadeCheck;
-        var picnicCheck = childSnapshot.val().picnicCheck;
-        var waterCheck = childSnapshot.val().waterCheck;
-        var checkIns = childSnapshot.val().checkIns;
-        
+        var parkKey = childSnapshot.key;
 
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
         newMediaDiv = $("<div class='media'>");
         newCardDiv.append(newMediaDiv);
-        // newImageTag = $("<img class='align-self-start mr-3' " + "src=" + newParkImage + " alt='park-image'>")
-        // newMediaDiv.append(newImageTag);
+        newImageDiv = $("<div class='col-sm-6 p-0'>");
+        newMediaDiv.append(newImageDiv);
+        newImageTag = $("<img class='align-self-start mr-3 responsive' src='assets/photos/pup2.jpeg' alt='pup'>")
+        newImageDiv.append(newImageTag);
+        newBodyDiv = $("<div class='col-sm-6 pl-4 pr-0'>");
+        newMediaDiv.append(newBodyDiv);
         newMediaBodyDiv = $("<div class='media-body'>")
-        newMediaDiv.append(newMediaBodyDiv);
+        newBodyDiv.append(newMediaBodyDiv);
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
-            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
-            "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
-            "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>"
-
+            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" + 
+            "<form method='get' action='park.html'>" +
+            "<button type='submit button' class='btn btn-primary more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
+            + "</form>"
         )
+        //$(".more-info-" + parkKey).attr("key", parkKey);
         $("#listWrapper").append(newCardDiv);
 
+
         //when more info is clicked on list page populate the park.html page
+
+        //});
+
         $(document).on("click", ".more-info", function () {
-            $("#park-name").text(parkName);
-            $("#miles-away").text(milesAway);
-            $("#recent-check-ins").text(checkIns);
-            $("#leash").text(leashCheck);
-            $("#fence").text(fenceCheck);
-            $("#swim").text(swimCheck);
-            $("#shade").text(shadeCheck);
-            $("#picnic").text(picnicCheck);
-            $("#water").text(waterCheck);
+            var key = $(this).attr("data-key");
+            console.log($(this).attr("data-key"));
+            sessionStorage.setItem("key", key);
+
+            
         });
 
-
-
     });
+
 
 
 
