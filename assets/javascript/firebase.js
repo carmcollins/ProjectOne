@@ -23,45 +23,45 @@ $(document).ready(function () {
         event.preventDefault()
         var checkIns = 0;
         var parkName = $("#park-name-input").val().trim();
-        var parkLat =  $("#add-park-map").attr("lat");
-        var parkLng =  $("#add-park-map").attr("lng");
+        var parkLat = $("#add-park-map").attr("lat");
+        var parkLng = $("#add-park-map").attr("lng");
         var leashCheck = false;
-        if (($("#leash-check").is(":checked"))) {
+        if ($("#leash-check").is(":checked")) {
             leashCheck = ("Off-Leash");
         }
         else {
             leashCheck = ("Requires Leash");
         }
         var fenceCheck = false;
-        if (($("#fence-check").is(":checked"))) {
+        if ($("#fence-check").is(":checked")) {
             fenceCheck = ("Fenced In");
         }
         else {
             fenceCheck = ("Not Fenced-In");
         }
         var swimCheck = false;
-        if (($("#swim-check").is(":checked"))) {
+        if ($("#swim-check").is(":checked")) {
             swimCheck = ("Swimming Hole");
         }
         else {
             swimCheck = ("No Swimming Hole");
         }
         var shadeCheck = false;
-        if (($("#shade-check").is(":checked"))) {
+        if ($("#shade-check").is(":checked")) {
             shadeCheck = ("Shaded Areas");
         }
         else {
             shadeCheck = ("No Shaded Areas");
         }
         var picnicCheck = false;
-        if (($("#picnic-check").is(":checked"))) {
+        if ($("#picnic-check").is(":checked")) {
             picnicCheck = ("Picnic Tables");
         }
         else {
             picnicCheck = ("No Picnic Tables");
         }
         var waterCheck = false;
-        if (($("#water-check").is(":checked"))) {
+        if ($("#water-check").is(":checked")) {
             waterCheck = ("Water Fountains");
         }
         else {
@@ -85,6 +85,7 @@ $(document).ready(function () {
         //clear input boxes and reset the checkboxes
         $("#park-name-input").val("");
         $("input[type=checkbox]").prop('checked', false);
+        
 
 
     });
