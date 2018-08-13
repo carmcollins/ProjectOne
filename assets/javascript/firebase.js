@@ -102,13 +102,13 @@ $(document).ready(function () {
         newCardDiv.append(newMediaDiv);
         // newImageTag = $("<img class='align-self-start mr-3' " + "src=" + newParkImage + " alt='park-image'>")
         // newMediaDiv.append(newImageTag);
-        newMediaBodyDiv = $("<div class='media-body'>")
+        newMediaBodyDiv = $("<div class='media-body'>");
         newMediaDiv.append(newMediaBodyDiv);
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
             "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway +
             "<p>" + "Recent Check Ins:" + checkIns + "<br>" +
-            "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>")
+            "<a href='park.html' class='btn btn-primary more-info'>" + "More Info" + "</a>");
         $("#listWrapper").append(newCardDiv);
 
         // when more info is clicked on list page populate the park.html page
@@ -127,11 +127,14 @@ $(document).ready(function () {
         // console.log(parkName); // lists all named parks
         // *********************** UPDATE *********************** kinda working!!!!!!!!
         // It will console the name you click, but also all names that follow in the database
+
         $(".more-info").on("click", function () {
             var number = 15;
-            console.log(this.parkName); //undefined
+            console.log(number); //undefined
         }); // end of .more-info onClick
-    }); // end of database.ref()]
+
+    }); // end of database.ref()
+
 
     // console.log("undefined?" + parkName); // undefined
 
