@@ -1,9 +1,17 @@
-
+var config = {
+    apiKey: "AIzaSyBIdeaYIvc47L5bC-9iBvfqZIu8Mt7BAcs",
+    authDomain: "tailwag-fa1c7.firebaseapp.com",
+    databaseURL: "https://tailwag-fa1c7.firebaseio.com",
+    projectId: "tailwag-fa1c7",
+    storageBucket: "tailwag-fa1c7.appspot.com",
+    messagingSenderId: "542472737315"
+};
 
 // Reference to the clicks in Firebase.
-// var clicks = database.ref('clicks');
+ 
 var database = firebase.database();
-
+console.log(database);
+var clicks = database.ref('clicks');
 //Data object to be written to Firebase.
 
 var data = {
@@ -14,13 +22,7 @@ var data = {
 };
 
 var heatmap = null;
-database.ref().on("child_added", function(childSnapshot){
-    var title = childSnapshot.parkName;
-    var position = childSnapshot.location;
-    console.log(title);
-    console.log(position);
-    
-});
+
 
 
 //CREATE INITIAL MAP WITH MARKERS 
@@ -90,7 +92,7 @@ function initMap() {
         infoWindow.open(map);
     }
 
-
+    
     // add marker array
     var markers = [
 
@@ -120,8 +122,31 @@ function initMap() {
             title: 'Zilker Metropolitan'
         }
     ];
+    database.ref('parks').on("child_added", function(childSnapshot){
+        var title = childSnapshot.val().parkName;
+        var latitude = parseFloat(childSnapshot.val().lat);
+        var longitude = parseFloat(childSnapshot.val().lng);
+        console.log(title);
+        console.log(latitude);
+        console.log(longitude);
+        
+        var newPark = {
+            coords: {
+                lat:latitude,
+                lng:longitude
+            },
+            title: title
+        }
+    
+        markers.push(newPark);
+        for (var j = 0; j < markers.length; j++) {
+            createMarker(j);
+            
+        };
+        
+    }); // end of database.refparks
 
-  
+    
   
 
 
@@ -138,11 +163,12 @@ function initMap() {
             map: map,
             icon: markers[i].iconImage,
             title: markers[i].title,
-            // parkKey: parkKey
         });
         console.log(markers[i]);
+        
         marker.setIcon(markers[i].iconImage);
-        // addMarker(markers[i]);
+        marker.setMap(map);
+        //addMarker(markers[i]);
         console.log('marker added');
 
         //create info window to pop up over marker
@@ -153,7 +179,7 @@ function initMap() {
                 + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
 
                 + "<form method='get' action='park.html'>" +
-                "<button type='submit button' class='btn btn-primary more-info' data-key='" + "marker.parkKey" + "'" + ">" + "More Info" + "</button>" 
+                "<button type='submit button' class='btn btn-primary more-info' data-key='" + marker.parkKey + "'" + ">" + "More Info" + "</button>" 
                 + "</form>"  //needs to populate with 'this' park.html
                 + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
                 + '</div>'
