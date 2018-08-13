@@ -15,7 +15,7 @@ $(document).ready(function () {
     var keyNeeded = sessionStorage.getItem("key")
     console.log("keyNeeded: " , keyNeeded);
     
-    database.ref().child(keyNeeded).on('value', function(snapshot){
+    database.ref('parks').child(keyNeeded).on('value', function(snapshot){
         console.log(snapshot.val().parkName);
     
         $("#park-name").text(snapshot.val().parkName);
