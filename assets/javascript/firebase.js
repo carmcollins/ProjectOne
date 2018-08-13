@@ -20,7 +20,8 @@ $(document).ready(function () {
         event.preventDefault()
         var checkIns = 0;
         var parkName = $("#park-name-input").val().trim();
-        var location = $("#location-input").val().trim();
+        var parkLat = $("#add-park-map").attr("lat");
+        var parkLng = $("#add-park-map").attr("lng");
         var leashCheck = false;
         if (($("#leash-check").is(":checked"))) {
             leashCheck = ("Off-Leash");
@@ -66,7 +67,8 @@ $(document).ready(function () {
 
         database.ref().push({
             parkName: parkName,
-            location: location,
+            lat: parkLat,
+            lng: parkLng,
             leashCheck: leashCheck,
             fenceCheck: fenceCheck,
             swimCheck: swimCheck,
@@ -81,6 +83,7 @@ $(document).ready(function () {
         $("#park-name-input").val("");
         $("#location-input").val("");;
         $("input[type=checkbox]").prop('checked', false);
+        
 
 
     });
