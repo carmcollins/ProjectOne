@@ -56,9 +56,11 @@ function initMap() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+            var image = 'assets/photos/star.png';
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
+                icon: image,
                 title: "geolocation"
             });
 
@@ -172,14 +174,11 @@ function initMap() {
         var infoWindow = new google.maps.InfoWindow({
             content: '<div id="infoWindow">'
                 + '<div id="bodyContent">'
-                + '<h3>' + marker.title + '</h3>'
-                + '<span>' + "Recent Checkins: " + "0" + '</span>' + '<button id="checkIn">Check In ' + '</button><br>'    //replace X with num clicks in last hour for specific park
-
-                + "<form method='get' action='park.html'>" +
-                "<button type='submit button' class='btn btn-primary more-info' data-key='" + marker.parkKey + "'" + ">" + "More Info" + "</button>" 
-                + "</form>"  //needs to populate with 'this' park.html
-                + '<button id="distance">Drive distance: ' + 'X miles' + '</button>'
-                + '</div>'
+                    + '<h6>' + marker.title + '</h6>'
+                    + '<p>' + '10' + ' miles away</p>'
+                    + '<form method="get" action="park.html">'
+                        + "<button type='button' class='btn btn-success btn-sm more-info' data-key='" + marker.parkKey + "'>More Info</button>" 
+                    + '</form>'
                 + '</div>'
         });
 
@@ -320,40 +319,3 @@ function addToFirebase(data) {
         });
     });
 }
-
-
-
-//ADD WEATHER API
-//===========================================================================================
-
-// Info for weather page
-var APIKey = "11631bfd75b571a520255fbeaeaeef02";
-var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=austin&appid=" + APIKey;
-
-$.ajax({
-    url: queryURL,
-    method: "GET"
-}).then(function (response) {
-    // Logs the object
-    console.log(response);
-
-    $("#description").text(response.weather[0].main);
-
-    var sunriseTime = moment(response.sys.sunrise, "X").format("h:mm A");
-    var sunsetTime = moment(response.sys.sunset, "X").format("h:mm A");
-
-
-    $("#sunrise-time").text(sunriseTime);
-    $("#sunset-time").text(sunsetTime);
-
-    // Adds humidity and wind to HTML
-    $("#humidity").text(response.main.humidity + "%");
-    $("#wind").text(response.wind.speed + " MPH");
-
-    // Converting temp from Kelvin to Farenheit
-    var kTemp = response.main.temp;
-    var fTemp = Math.floor((kTemp - 273.15) * 1.80 + 32);
-    $("#temp").text(fTemp + " F");
-
-});
-
