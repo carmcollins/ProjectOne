@@ -78,6 +78,7 @@ $(document).ready(function () {
             shadeCheck: shadeCheck,
             picnicCheck: picnicCheck,
             waterCheck: waterCheck,
+            checkIns: checkIns
 
 
 
