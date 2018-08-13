@@ -20,7 +20,8 @@ $(document).ready(function () {
         event.preventDefault()
         var checkIns = 0;
         var parkName = $("#park-name-input").val().trim();
-        var location = $("#location-input").val().trim();
+        var parkLat =  $("#add-park-map").attr("lat");
+        var parkLng =  $("#add-park-map").attr("lng");
         var leashCheck = false;
         if (($("#leash-check").is(":checked"))) {
             leashCheck = ("Off-Leash");
@@ -64,9 +65,10 @@ $(document).ready(function () {
             waterCheck = ("No Water Fountains");
         }
 
-        database.ref().push({
+        database.ref('parks').push({
             parkName: parkName,
-            location: location,
+            lat: parkLat,
+            lng: parkLng,
             leashCheck: leashCheck,
             fenceCheck: fenceCheck,
             swimCheck: swimCheck,
@@ -79,7 +81,6 @@ $(document).ready(function () {
         });
         //clear input boxes and reset the checkboxes
         $("#park-name-input").val("");
-        $("#location-input").val("");;
         $("input[type=checkbox]").prop('checked', false);
 
 
@@ -88,17 +89,8 @@ $(document).ready(function () {
     //push park info to dog park page
     database.ref().on("child_added", function (childSnapshot) {
         var parkName = childSnapshot.val().parkName;
-        var location = childSnapshot.val().location;
         var milesAway = 0; //need to figure this one out
-        // var leashCheck = childSnapshot.val().leashCheck;
-        // var fenceCheck = childSnapshot.val().fenceCheck;
-        // var swimCheck = childSnapshot.val().swimCheck;
-        // var shadeCheck = childSnapshot.val().shadeCheck;
-        // var picnicCheck = childSnapshot.val().picnicCheck;
-        // var waterCheck = childSnapshot.val().waterCheck;
-        // var checkIns = childSnapshot.val().checkIns;
         var parkKey = childSnapshot.key;
-        console.log(parkKey);
 
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
         newMediaDiv = $("<div class='media'>");
@@ -114,9 +106,9 @@ $(document).ready(function () {
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
             "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" + 
-            //"<form method='get' action='park.html'>" +
+            "<form method='get' action='park.html'>" +
             "<button type='submit button' class='btn btn-primary more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
-            //+ "</form>"
+            + "</form>"
         )
         //$(".more-info-" + parkKey).attr("key", parkKey);
         $("#listWrapper").append(newCardDiv);
@@ -129,21 +121,9 @@ $(document).ready(function () {
         $(document).on("click", ".more-info", function () {
             var key = $(this).attr("data-key");
             console.log($(this).attr("data-key"));
+            sessionStorage.setItem("key", key);
 
-            database.ref().orderByKey().equalTo(key).on("value", function (snapshot) {
-                console.log("made it here");
-                console.log(snapshot.val());
-                // $("#park-name").text(snapshot.val().parkName);
-                // $("#miles-away").text(snapshot.val().milesAway);
-                // $("#recent-check-ins").text(snapshot.val().checkIns);
-                // $("#leash").text(snapshot.val().leashCheck);
-                // $("#fence").text(snapshot.val().fenceCheck);
-                // $("#swim").text(snapshot.val().swimCheck);
-                // $("#shade").text(snapshot.val().shadeCheck);
-                // $("#picnic").text(snapshot.val().picnicCheck);
-                // $("#water").text(snapshot.val().waterCheck);
-
-            });
+            
         });
 
     });
