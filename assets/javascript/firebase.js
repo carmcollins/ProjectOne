@@ -81,7 +81,6 @@ $(document).ready(function () {
         });
         //clear input boxes and reset the checkboxes
         $("#park-name-input").val("");
-        $("#location-input").val("");;
         $("input[type=checkbox]").prop('checked', false);
         
 
