@@ -32,6 +32,12 @@
     background-color: gray;
 }
 
+#add-park-map {
+    height: 200px;
+    width: 100%;
+    background-color: gray;
+}
+
 .form-label {
     font-weight: bold;
 }
@@ -47,4 +53,8 @@
 
 th {
     font-weight: bold;
+}
+
+.has-error input[type="text"] {
+    border: 1px solid #A94442;
 }
