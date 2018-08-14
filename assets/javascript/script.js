@@ -56,7 +56,7 @@ function initMap() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            var image = 'assets/photos/star.png';
+            var image = 'assets/photos/star32.png';
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
@@ -123,11 +123,11 @@ function initMap() {
     ];
     database.ref('parks').on("child_added", function(childSnapshot){
         var title = childSnapshot.val().parkName;
-        var latitude = parseFloat(childSnapshot.val().lat);
-        var longitude = parseFloat(childSnapshot.val().lng);
-        console.log(title);
-        console.log(latitude);
-        console.log(longitude);
+        var latitude = parseFloat(childSnapshot.val().parkLat);
+        var longitude = parseFloat(childSnapshot.val().parkLng);
+        // console.log(title);
+        // console.log(latitude);
+        // console.log(longitude);
         
         var newPark = {
             coords: {
@@ -156,19 +156,19 @@ function initMap() {
 
     function createMarker(i){
 
-    
+        var iconImage = "assets/photos/paw24.png"
         var marker = new google.maps.Marker({
             position: markers[i].coords,
             map: map,
-            icon: markers[i].iconImage,
+            icon: iconImage,
             title: markers[i].title,
         });
-        console.log(markers[i]);
+        // console.log(markers[i]);
         
-        marker.setIcon(markers[i].iconImage);
+        marker.setIcon(iconImage);
         marker.setMap(map);
         //addMarker(markers[i]);
-        console.log('marker added');
+        // console.log('marker added');
 
         //create info window to pop up over marker
         var infoWindow = new google.maps.InfoWindow({
@@ -184,11 +184,11 @@ function initMap() {
 
         marker.addListener('click', function(e) {
             
-            console.log("marker click")
+            // console.log("marker click")
             infoWindow.open(map, marker);
     
             $('#checkIn').bind('click', function (e) {
-                console.log("check in")
+                // console.log("check in")
                 data.lat = e.latLng.lat();
                 data.lng = e.latLng.lng();
                 addToFirebase(data);
