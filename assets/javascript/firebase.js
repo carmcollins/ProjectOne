@@ -115,7 +115,7 @@ $(document).ready(function () {
         newBodyDiv.append(newMediaBodyDiv);
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
-            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" + 
+            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" +
             "<form method='get' action='park.html'>" +
             "<button type='submit button' class='btn btn-success more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
             + "</form>"
@@ -132,8 +132,6 @@ $(document).ready(function () {
             var key = $(this).attr("data-key");
             console.log($(this).attr("data-key"));
             sessionStorage.setItem("key", key);
-
-            
         });
 
     });

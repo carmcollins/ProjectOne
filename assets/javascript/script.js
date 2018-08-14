@@ -8,8 +8,9 @@ var config = {
 };
 
 // Reference to the clicks in Firebase.
- 
+
 var database = firebase.database();
+
 console.log(database);
 
 //Data object to be written to Firebase.
@@ -31,32 +32,50 @@ var heatmap = null;
 function initMap() {
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 30.307182, lng: -97.755996 },
+        center: {
+            lat: 30.307182,
+            lng: -97.755996
+        },
         zoom: 12,
         styles: [{
-            featureType: 'poi',
-            stylers: [{ visibility: 'off' }]  // Turn off POI.
-        },
-        {
-            featureType: 'transit.station',
-            stylers: [{ visibility: 'off' }]  // Turn off bus, train stations etc.
-        }],
+                featureType: 'poi',
+                stylers: [{
+                    visibility: 'off'
+                }] // Turn off POI.
+            },
+            {
+                featureType: 'transit.station',
+                stylers: [{
+                    visibility: 'off'
+                }] // Turn off bus, train stations etc.
+            }
+        ],
         disableDoubleClickZoom: true,
         streetViewControl: false,
 
     });
 
-
+    var positionLat = 0;
+    var positionLng = 0;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var pos =
-            {
+            var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+
+            positionLat = position.coords.latitude;
+            positionLng = position.coords.longitude;
+
+            getCoords(positionLat, positionLng);
+
+            // console.log("inside pos: " + position.coords.latitude);
+            // console.log("inside pos: " + position.coords.longitude);
+
             var image = 'assets/photos/star32.png';
+
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
@@ -64,20 +83,34 @@ function initMap() {
                 title: "geolocation"
             });
 
-
             marker.setMap(map);
             // infoWindow.setPosition(pos);
             // infoWindow.setContent();
             // infoWindow.open(map);
             map.setCenter(pos);
+            return pos;
+
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
-    }
-    else {
+
+        //************************************ current location */
+    } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+
+    function getCoords(lat, lng) {
+        console.log(lat) // current positions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        console.log(lng) // 
+
+        // $("#park-name").text(snapshot.val().parkName);
+        database.ref('parks').on('child_added', function (snapshot) {
+            console.log("in db " + snapshot.val().parkLat); /// this is printing for every entry in db.
+        })
+
+    }
+
 
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -88,41 +121,55 @@ function initMap() {
         infoWindow.open(map);
     }
 
-    
+
     // add marker array
     var markers = [
 
 
         {
-            coords: { lat: 30.291163, lng: -97.787247 },
+            coords: {
+                lat: 30.291163,
+                lng: -97.787247
+            },
             title: 'Red Bud Isle'
 
         },
 
         {
 
-            coords: { lat: 30.249140, lng: -97.736471 },
+            coords: {
+                lat: 30.249140,
+                lng: -97.736471
+            },
             title: 'Norwood Estates Dog Park'
 
         },
 
         {
 
-            coords: { lat: 30.263507, lng: -97.753170 },
+            coords: {
+                lat: 30.263507,
+                lng: -97.753170
+            },
             title: 'Auditorium Shores Dog Park'
 
         },
 
         {
 
-            coords: { lat: 30.266909, lng: -97.772870 },
+            coords: {
+                lat: 30.266909,
+                lng: -97.772870
+            },
             title: 'Zilker Metropolitan'
 
 
         }
     ];
-    database.ref('parks').on("child_added", function(childSnapshot){
+
+    database.ref('parks').on("child_added", function (childSnapshot) {
         var title = childSnapshot.val().parkName;
+
         var latitude = parseFloat(childSnapshot.val().parkLat);
         var longitude = parseFloat(childSnapshot.val().parkLng);
         var parkKey = childSnapshot.key;
@@ -132,23 +179,23 @@ function initMap() {
         
         var newPark = {
             coords: {
-                lat:latitude,
-                lng:longitude
+                lat: latitude,
+                lng: longitude
             },
             title: title,
             parkKey: parkKey
         }
-    
+
         markers.push(newPark);
         for (var j = 0; j < markers.length; j++) {
             createMarker(j);
-            
+
         };
-        
+
     }); // end of database.refparks
 
-    
-  
+
+
 
 
     // marker.setMap(map);
@@ -156,9 +203,12 @@ function initMap() {
         createMarker(j);
     };
 
-    function createMarker(i){
+    function createMarker(i) {
+
+
 
         var iconImage = "assets/photos/paw24.png"
+
         var marker = new google.maps.Marker({
             position: markers[i].coords,
             map: map,
@@ -166,14 +216,17 @@ function initMap() {
             title: markers[i].title,
         });
         // console.log(markers[i]);
+
         
         marker.setIcon(iconImage);
+
         marker.setMap(map);
         //addMarker(markers[i]);
         // console.log('marker added');
 
         //create info window to pop up over marker
         var infoWindow = new google.maps.InfoWindow({
+
             content: '<div id="infoWindow">'
                 + '<div id="bodyContent">'
                     + '<h6>' + marker.title + '</h6>'
@@ -186,28 +239,28 @@ function initMap() {
 
         marker.addListener('click', function(e) {
             
+
             // console.log("marker click")
             infoWindow.open(map, marker);
-    
+
             $('#checkIn').bind('click', function (e) {
                 // console.log("check in")
                 data.lat = e.latLng.lat();
                 data.lng = e.latLng.lng();
                 addToFirebase(data);
-            });  
+            });
         });
-       
-  
-    }
 
 // Jenni's work on heat map
 // var map;
 // var heatmap;
 
+
 // heatmap = new google.maps.visualization.HeatmapLayer({
 //             data: getPoints(),
 //             map: map,
 //         });
+
 
 // function getPoints(){
 //     console.log("got here")
@@ -224,6 +277,7 @@ function initMap() {
 
 // Brit heatmap starts here
 
+
 //     heatmap = new google.maps.visualization.HeatmapLayer({
 //         data: [],
 //         map: map,
@@ -234,16 +288,20 @@ function initMap() {
 
 
 
+
 // //CREATE HEATMAP 
 // //==========================================================================
+
 
  
 // function initFirebase(heatmap) {
 
+
 //     // 10 minutes before current time. ----------------------------Need to change to 60 min before current time
 //     var startTime = new Date().getTime() - (60 * 10 * 1000);
 
-    
+
+
 
 //     // Listener for when a click is added.
 //     clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
@@ -253,6 +311,7 @@ function initMap() {
 //             var newPosition = snapshot.val();
 //             var point = new google.maps.LatLng(newPosition.lat, newPosition.lng);
 //             var elapsed = new Date().getTime() - newPosition.timestamp;
+
 
 //             // Add the point to  the heatmap.
 //             heatmap.getData().push(point);
@@ -328,3 +387,4 @@ function initMap() {
 //         });
 //     });
 }
+

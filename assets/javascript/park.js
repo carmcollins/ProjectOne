@@ -17,6 +17,7 @@ $(document).ready(function () {
     var keyNeeded = sessionStorage.getItem("key")
 
 
+
     database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
         $("#park-name").text(snapshot.val().parkName);
         $("#miles-away").text(snapshot.val().milesAway);
@@ -62,4 +63,4 @@ $(document).ready(function () {
 
     });
 
-}); 
+});
