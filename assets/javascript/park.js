@@ -28,6 +28,8 @@ $(document).ready(function () {
         $("#shade").text(snapshot.val().shadeCheck);
         $("#picnic").text(snapshot.val().picnicCheck);
         $("#water").text(snapshot.val().waterCheck);
+        var parkLat = parseFloat(snapshot.val().parkLat);
+        var parkLng = parseFloat(snapshot.val().parkLng);
 
         var checkIns= snapshot.val().checkIns;
 

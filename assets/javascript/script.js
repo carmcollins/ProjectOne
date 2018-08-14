@@ -55,8 +55,8 @@ function initMap() {
 
     });
 
-    var positionLat = 0;
-    var positionLng = 0;
+    var positionLat;
+    var positionLng;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -230,25 +230,15 @@ function initMap() {
             content: '<div id="infoWindow">'
                 + '<div id="bodyContent">'
                     + '<h6>' + marker.title + '</h6>'
-                    + '<p>' + '10' + ' miles away</p>'
-                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'" + "More Info" + "</a>"
+                    + '<p id="miles-away">' + '10' + ' miles away</p>'
+                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'>" + "More Info" + "</a>"
                 + '</div>'
         });
 
-        
-
-        marker.addListener('click', function(e) {
-            
+        marker.addListener('click', function(e) {    
 
             // console.log("marker click")
             infoWindow.open(map, marker);
-
-            $('#checkIn').bind('click', function (e) {
-                // console.log("check in")
-                data.lat = e.latLng.lat();
-                data.lng = e.latLng.lng();
-                addToFirebase(data);
-            });
         });
 
 // Jenni's work on heat map
@@ -271,7 +261,7 @@ function initMap() {
 //         return [new google.maps.LatLng(lat, lng)]
 //     });
    
-// }    
+}    
 
 
 
@@ -284,7 +274,7 @@ function initMap() {
 //         radius: 16
 //     });
 
-// } // end init map 
+} // end init map 
 
 
 
@@ -386,5 +376,4 @@ function initMap() {
 //             }
 //         });
 //     });
-}
-
+// }

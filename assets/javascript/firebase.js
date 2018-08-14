@@ -12,18 +12,19 @@ firebase.initializeApp(config);
 
 $(document).ready(function () {
 
-
-
     var database = firebase.database();
 
-   
+    $("#submit-btn").show();
+    $("#submitted-btn").hide();
 
     //when submit button is clicked, push form info to database
     $("#submit-btn").on("click", function (event) {
         event.preventDefault()
+        $("#submit-btn").hide();
+        $("#submitted-btn").show();
 
         if (!$("#park-name-input").val()) {
-            $(".error-message").text("Please enter a park name");
+            $(".error-message").text("Please enter a park name!");
         } else {
             var checkIns = 0;
             var parkName = $("#park-name-input").val().trim();
@@ -84,15 +85,12 @@ $(document).ready(function () {
                 waterCheck: waterCheck,
                 checkIns: checkIns
 
-
-
             });
             //clear input boxes and reset the checkboxes
             $("#park-name-input").val("");
             $("input[type=checkbox]").prop('checked', false);
             $(".error-message").text("");
         }
-
 
     });
 
@@ -115,14 +113,13 @@ $(document).ready(function () {
         newBodyDiv.append(newMediaBodyDiv);
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
-            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" +
+            "<br>" + "<br>" +
             "<form method='get' action='park.html'>" +
             "<button type='submit button' class='btn btn-success more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
             + "</form>"
         )
         //$(".more-info-" + parkKey).attr("key", parkKey);
         $("#listWrapper").append(newCardDiv);
-
 
         //when more info is clicked on list page populate the park.html page
 
@@ -135,9 +132,5 @@ $(document).ready(function () {
         });
 
     });
-
-
-
-
 
 });
