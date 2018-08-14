@@ -20,11 +20,11 @@
     <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
 </head>
 <body>
-    <!-- Header / Nav -->
+    <!-- Nav -->
     <div class="icon-bar fixed-top">
         <a href="index.html"><i class="fas fa-map-marker-alt"></i></a> 
         <a href="list-view.html"><i class="fas fa-list-ul"></i></a> 
-        <a href="park.html"><i class="fas fa-paw"></i></a> 
+        <a href="#"><i class="fas fa-paw"></i></a> 
         <a href="weather.html"><i class="fas fa-sun"></i></a>
         <a class="active" href="add-park.html"><i class="fas fa-plus"></i></a>
     </div>
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <label for="park-name-input" class="form-label">Park Name</label>
                         <input type="text" class="form-control" id="park-name-input">
-                        <div class="invalid-feedback">Please enter a park name</div>
+                        <div class="error-message"></div>
                     </div>
                     <div class="form-group">
                         <label for="location-input" class="form-label">Location</label>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+                        <button type="submit" class="btn btn-success" id="submit-btn">Submit</button>
                     </div>
                 </form>
             </div>
@@ -90,66 +90,9 @@
     <!-- OUR JAVASCRIPT -->
     <script type="text/javascript">
 
-        var addParkMap;
-        var addParkMarkers = [];
-
-        function initMap() {
-            addParkMap = new google.maps.Map(document.getElementById('add-park-map'), {
-                center: {lat: 30.267, lng: -97.743},
-                zoom: 13,
-                styles: [{
-                    featureType: 'poi',
-                    stylers: [{ visibility: 'off' }]
-                    },
-                    {
-                    featureType: 'transit.station',
-                    stylers: [{ visibility: 'off' }]
-                }]
-            })
-        };
-        
-        $(document).ready(function() {
-
-            addParkMap.addListener('click', function(e) {
-                placeMarker(e.latLng, addParkMap);
-            });
-
-            function placeMarker(position, addParkMap) {
-                var addParkMarker = new google.maps.Marker({
-                    position: position,
-                    map: addParkMap,
-                });
-                addParkMap.panTo(position);
-                addParkMarkers.push(addParkMarker);
-
-                var lat = addParkMarker.getPosition().lat();
-                var lng = addParkMarker.getPosition().lng();
-
-                $("#add-park-map").attr("lat", lat);
-                $("#add-park-map").attr("lng", lng);
-            };
-
-            function setMapOnAll(addParkMap) {
-                for (var i = 0; i < addParkMarkers.length; i++) {
-                    addParkMarkers[i].setMap(addParkMap);
-                }
-            };
-
-            function clearMarkers() {
-                setMapOnAll(null);
-                addParkMarkers = [];
-            };
-
-            $("#submit-btn").on("click", function() {
-                clearMarkers();
-            });
-
-
-
-        });
 
     </script>
-    <!-- <script src="assets/javascript/script.js"></script> -->
+    <script src="assets/javascript/addparkmap.js"></script>
     <script src="assets/javascript/firebase.js"></script>
 </body>
 </html>
