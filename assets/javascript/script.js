@@ -11,7 +11,7 @@ var config = {
  
 var database = firebase.database();
 console.log(database);
-var clicks = database.ref('clicks');
+
 //Data object to be written to Firebase.
 
 var data = {
@@ -123,8 +123,9 @@ function initMap() {
     ];
     database.ref('parks').on("child_added", function(childSnapshot){
         var title = childSnapshot.val().parkName;
-        var latitude = parseFloat(childSnapshot.val().lat);
-        var longitude = parseFloat(childSnapshot.val().lng);
+        var latitude = parseFloat(childSnapshot.val().parkLat);
+        var longitude = parseFloat(childSnapshot.val().parkLng);
+        var parkKey = childSnapshot.key;
         console.log(title);
         console.log(latitude);
         console.log(longitude);
@@ -134,7 +135,8 @@ function initMap() {
                 lat:latitude,
                 lng:longitude
             },
-            title: title
+            title: title,
+            parkKey: parkKey
         }
     
         markers.push(newPark);
@@ -176,11 +178,11 @@ function initMap() {
                 + '<div id="bodyContent">'
                     + '<h6>' + marker.title + '</h6>'
                     + '<p>' + '10' + ' miles away</p>'
-                    + '<form method="get" action="park.html">'
-                        + "<button type='button' class='btn btn-success btn-sm more-info' data-key='" + marker.parkKey + "'>More Info</button>" 
-                    + '</form>'
+                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'" + "More Info" + "</a>"
                 + '</div>'
         });
+
+        
 
         marker.addListener('click', function(e) {
             
@@ -198,124 +200,131 @@ function initMap() {
   
     }
 
+// Jenni's work on heat map
+// var map;
+// var heatmap;
+
+// heatmap = new google.maps.visualization.HeatmapLayer({
+//             data: getPoints(),
+//             map: map,
+//         });
+
+// function getPoints(){
+//     console.log("got here")
+//     database.ref('parks').child('uid').child('checkIns').observe("child_added", function (snapshot){
+//        var checkInAmount = snapshot.val().checkIns;
+//         var lat = parseFloat(snapshot.val().parkLat);
+//         var lng = parseFloat(snapshot.val().parkLng); 
+//         return [new google.maps.LatLng(lat, lng)]
+//     });
+   
+// }    
 
 
 
-    heatmap = new google.maps.visualization.HeatmapLayer({
-        data: [],
-        map: map,
-        radius: 16
-    });
+// Brit heatmap starts here
 
-} // end init map 
+//     heatmap = new google.maps.visualization.HeatmapLayer({
+//         data: [],
+//         map: map,
+//         radius: 16
+//     });
 
-
-
-//CREATE HEATMAP 
-//==========================================================================
+// } // end init map 
 
 
 
-// Create a heatmap.
-// var heatmap = new google.maps.visualization.HeatmapLayer({
-//     data: [],
-//     map: map,
-//     radius: 16
-// });
+// //CREATE HEATMAP 
+// //==========================================================================
 
-
-
-//Set up a Firebase with deletion on clicks older than expirySeconds
-// @param {!google.maps.visualization.HeatmapLayer} heatmap The heatmap to
-// which points are added from Firebase.
  
-function initFirebase(heatmap) {
+// function initFirebase(heatmap) {
 
-    // 10 minutes before current time. ----------------------------Need to change to 60 min before current time
-    var startTime = new Date().getTime() - (60 * 10 * 1000);
+//     // 10 minutes before current time. ----------------------------Need to change to 60 min before current time
+//     var startTime = new Date().getTime() - (60 * 10 * 1000);
 
     
 
-    // Listener for when a click is added.
-    clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
-        function (snapshot) {
-            console.log(snapshot.val());
-            // Get that click from firebase.
-            var newPosition = snapshot.val();
-            var point = new google.maps.LatLng(newPosition.lat, newPosition.lng);
-            var elapsed = new Date().getTime() - newPosition.timestamp;
+//     // Listener for when a click is added.
+//     clicks.orderByChild('timestamp').startAt(startTime).on('child_added',
+//         function (snapshot) {
+//             console.log(snapshot.val());
+//             // Get that click from firebase.
+//             var newPosition = snapshot.val();
+//             var point = new google.maps.LatLng(newPosition.lat, newPosition.lng);
+//             var elapsed = new Date().getTime() - newPosition.timestamp;
 
-            // Add the point to  the heatmap.
-            heatmap.getData().push(point);
+//             // Add the point to  the heatmap.
+//             heatmap.getData().push(point);
 
-            // Requests entries older than expiry time (10 minutes).
-            var expirySeconds = Math.max(60 * 10 * 1000 - elapsed, 0);
-            // Set client timeout to remove the point after a certain time.
-            window.setTimeout(function () {
-                // Delete the old point from the database.
-                snapshot.ref().remove();
-            }, expirySeconds);
-        }
-    );
+//             // Requests entries older than expiry time (10 minutes).
+//             var expirySeconds = Math.max(60 * 10 * 1000 - elapsed, 0);
+//             // Set client timeout to remove the point after a certain time.
+//             window.setTimeout(function () {
+//                 // Delete the old point from the database.
+//                 snapshot.ref().remove();
+//             }, expirySeconds);
+//         }
+//     );
 
-    // Remove old data from the heatmap when a point is removed from firebase.
-    clicks.on('child_removed', function (snapshot, prevChildKey) {
-        var heatmapData = heatmap.getData();
-        var i = 0;
-        while (snapshot.val().lat != heatmapData.getAt(i).lat()
-            || snapshot.val().lng != heatmapData.getAt(i).lng()) {
-            i++;
-        }
-        heatmapData.removeAt(i);
-    });
+//     // Remove old data from the heatmap when a point is removed from firebase.
+//     clicks.on('child_removed', function (snapshot, prevChildKey) {
+//         var heatmapData = heatmap.getData();
+//         var i = 0;
+//         while (snapshot.val().lat != heatmapData.getAt(i).lat()
+//             || snapshot.val().lng != heatmapData.getAt(i).lng()) {
+//             i++;
+//         }
+//         heatmapData.removeAt(i);
+//     });
 
-    initFirebase(heatmap);
+//     initFirebase(heatmap);
 
-} //------------------------------------end initFirebase ------------------------------------------
-
-
+// } //------------------------------------end initFirebase ------------------------------------------
 
 
 
- //Updates the last_message/ path with the current timestamp.
- //@param {function(Date)} addClick After the last message timestamp has been updated,
- //    this function is called with the current timestamp to add the
- //    click to the firebase.
+
+
+//  //Updates the last_message/ path with the current timestamp.
+//  //@param {function(Date)} addClick After the last message timestamp has been updated,
+//  //    this function is called with the current timestamp to add the
+//  //    click to the firebase.
  
-function getTimestamp(addClick) {
-    // Reference to location for saving the last click time.
-    var ref = database.ref('last_message/' + data.sender);
+// function getTimestamp(addClick) {
+//     // Reference to location for saving the last click time.
+//     var ref = database.ref('last_message/' + data.sender);
 
-    ref.onDisconnect().remove();  // Delete reference from firebase on disconnect.
-
-
-    // Set value to timestamp.
-    ref.set(firebase.database.ServerValue.TIMESTAMP, function (err) {
-        if (err) {  // Write to last message was unsuccessful.
-            console.log(err);
-        } else {  // Write to last message was successful.
-            ref.once('value', function (snap) {
-                addClick(snap.val());  // Add click with same timestamp.
-            }, function (err) {
-                console.warn(err);
-            });
-        }
-    });
-}
+//     ref.onDisconnect().remove();  // Delete reference from firebase on disconnect.
 
 
-//Adds a click to firebase.
-//@param {Object} data The data to be added to firebase.
-//   It contains the lat, lng, sender and timestamp.
+//     // Set value to timestamp.
+//     ref.set(firebase.database.ServerValue.TIMESTAMP, function (err) {
+//         if (err) {  // Write to last message was unsuccessful.
+//             console.log(err);
+//         } else {  // Write to last message was successful.
+//             ref.once('value', function (snap) {
+//                 addClick(snap.val());  // Add click with same timestamp.
+//             }, function (err) {
+//                 console.warn(err);
+//             });
+//         }
+//     });
+// }
 
-function addToFirebase(data) {
-    getTimestamp(function (timestamp) {
-        // Add the new timestamp to the record data.
-        data.timestamp = timestamp;
-        var ref = database.ref('clicks').push(data, function (err) {
-            if (err) {  // Data was not written to firebase.
-                console.warn(err);
-            }
-        });
-    });
+
+// //Adds a click to firebase.
+// //@param {Object} data The data to be added to firebase.
+// //   It contains the lat, lng, sender and timestamp.
+
+// function addToFirebase(data) {
+//     getTimestamp(function (timestamp) {
+//         // Add the new timestamp to the record data.
+//         data.timestamp = timestamp;
+//         var ref = database.ref('clicks').push(data, function (err) {
+//             if (err) {  // Data was not written to firebase.
+//                 console.warn(err);
+//             }
+//         });
+//     });
 }
