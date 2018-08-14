@@ -20,11 +20,11 @@
     <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
 </head>
 <body>
-    <!-- Header / Nav -->
+    <!-- Nav -->
     <div class="icon-bar fixed-top">
         <a href="index.html"><i class="fas fa-map-marker-alt"></i></a> 
         <a href="list-view.html"><i class="fas fa-list-ul"></i></a> 
-        <a class="active" href="park.html"><i class="fas fa-paw"></i></a> 
+        <a class="active" href="#"><i class="fas fa-paw"></i></a> 
         <a href="weather.html"><i class="fas fa-sun"></i></a>
         <a href="add-park.html"><i class="fas fa-plus"></i></a> 
     </div>
@@ -35,9 +35,10 @@
             <div class="card-body">
                 <h1 class="card-title text-center"><span id="park-name">Park Name</span></h1>
                 <h6 class="card-subtitle mb-2 text-muted text-center"><span id="miles-away">10</span> miles away</h6>
-                <p class="card-text text-center">Recent Check Ins: <span id="recent-check-ins">10</span></p>
+                <p class="card-text text-center">Recent Check Ins: <span id="recent-check-ins"></span></p>
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary">Check In</button>
+                    <button type="button" class="btn btn-primary check-in">Check In</button>
+                    <button type="button" class="btn btn-primary check-out">Check Out</button>
                 </div>
             </div>
             <ul class="list-group list-group-flush">

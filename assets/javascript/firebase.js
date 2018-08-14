@@ -16,71 +16,82 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    var checkIns = 0;
+   
 
     //when submit button is clicked, push form info to database
     $("#submit-btn").on("click", function (event) {
         event.preventDefault()
-        var checkIns = 0;
-        var parkName = $("#park-name-input").val().trim();
-        var parkLat = $("#add-park-map").attr("lat");
-        var parkLng = $("#add-park-map").attr("lng");
-        var leashCheck = false;
-        if ($("#leash-check").is(":checked")) {
-            leashCheck = ("Off-Leash");
-        } else {
-            leashCheck = ("Requires Leash");
-        }
-        var fenceCheck = false;
-        if ($("#fence-check").is(":checked")) {
-            fenceCheck = ("Fenced In");
-        } else {
-            fenceCheck = ("Not Fenced-In");
-        }
-        var swimCheck = false;
-        if ($("#swim-check").is(":checked")) {
-            swimCheck = ("Swimming Hole");
-        } else {
-            swimCheck = ("No Swimming Hole");
-        }
-        var shadeCheck = false;
-        if ($("#shade-check").is(":checked")) {
-            shadeCheck = ("Shaded Areas");
-        } else {
-            shadeCheck = ("No Shaded Areas");
-        }
-        var picnicCheck = false;
-        if ($("#picnic-check").is(":checked")) {
-            picnicCheck = ("Picnic Tables");
-        } else {
-            picnicCheck = ("No Picnic Tables");
-        }
-        var waterCheck = false;
-        if ($("#water-check").is(":checked")) {
-            waterCheck = ("Water Fountains");
-        } else {
-            waterCheck = ("No Water Fountains");
-        }
 
-        database.ref('parks').push({
-            parkName: parkName,
-            parkLat: parkLat,
-            parkLng: parkLng,
-            leashCheck: leashCheck,
-            fenceCheck: fenceCheck,
-            swimCheck: swimCheck,
-            shadeCheck: shadeCheck,
-            picnicCheck: picnicCheck,
-            waterCheck: waterCheck,
-            checkIns: checkIns
+        if (!$("#park-name-input").val()) {
+            $(".error-message").text("Please enter a park name");
+        } else {
+            var checkIns = 0;
+            var parkName = $("#park-name-input").val().trim();
+            var parkLat = $("#add-park-map").attr("lat");
+            var parkLng = $("#add-park-map").attr("lng");
+            var leashCheck = false;
+            if ($("#leash-check").is(":checked")) {
+                leashCheck = ("Off-Leash");
+            }
+            else {
+                leashCheck = ("Requires Leash");
+            }
+            var fenceCheck = false;
+            if ($("#fence-check").is(":checked")) {
+                fenceCheck = ("Fenced In");
+            }
+            else {
+                fenceCheck = ("Not Fenced-In");
+            }
+            var swimCheck = false;
+            if ($("#swim-check").is(":checked")) {
+                swimCheck = ("Swimming Hole");
+            }
+            else {
+                swimCheck = ("No Swimming Hole");
+            }
+            var shadeCheck = false;
+            if ($("#shade-check").is(":checked")) {
+                shadeCheck = ("Shaded Areas");
+            }
+            else {
+                shadeCheck = ("No Shaded Areas");
+            }
+            var picnicCheck = false;
+            if ($("#picnic-check").is(":checked")) {
+                picnicCheck = ("Picnic Tables");
+            }
+            else {
+                picnicCheck = ("No Picnic Tables");
+            }
+            var waterCheck = false;
+            if ($("#water-check").is(":checked")) {
+                waterCheck = ("Water Fountains");
+            }
+            else {
+                waterCheck = ("No Water Fountains");
+            }
+
+            database.ref('parks').push({
+                parkName: parkName,
+                parkLat: parkLat,
+                parkLng: parkLng,
+                leashCheck: leashCheck,
+                fenceCheck: fenceCheck,
+                swimCheck: swimCheck,
+                shadeCheck: shadeCheck,
+                picnicCheck: picnicCheck,
+                waterCheck: waterCheck,
+                checkIns: checkIns
 
 
 
-        });
-        //clear input boxes and reset the checkboxes
-        $("#park-name-input").val("");
-        $("input[type=checkbox]").prop('checked', false);
-
+            });
+            //clear input boxes and reset the checkboxes
+            $("#park-name-input").val("");
+            $("input[type=checkbox]").prop('checked', false);
+            $(".error-message").text("");
+        }
 
 
     });
@@ -106,8 +117,8 @@ $(document).ready(function () {
             "<h5 class='mt-0'>" + parkName +
             "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" +
             "<form method='get' action='park.html'>" +
-            "<button type='submit button' class='btn btn-primary more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" +
-            "</form>"
+            "<button type='submit button' class='btn btn-success more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
+            + "</form>"
         )
         //$(".more-info-" + parkKey).attr("key", parkKey);
         $("#listWrapper").append(newCardDiv);
