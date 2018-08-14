@@ -55,8 +55,8 @@ function initMap() {
 
     });
 
-    var positionLat = 0;
-    var positionLng = 0;
+    var positionLat;
+    var positionLng;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -69,11 +69,10 @@ function initMap() {
             positionLat = position.coords.latitude;
             positionLng = position.coords.longitude;
 
-            getCoords(positionLat, positionLng);
+            //getCoords(positionLat, positionLng);
 
-            // console.log("inside pos: " + position.coords.latitude);
-            // console.log("inside pos: " + position.coords.longitude);
 
+           
             var image = 'assets/photos/star32.png';
 
             var marker = new google.maps.Marker({
@@ -100,16 +99,32 @@ function initMap() {
         handleLocationError(false, infoWindow, map.getCenter());
     }
 
-    function getCoords(lat, lng) {
-        console.log(lat) // current positions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        console.log(lng) // 
+    // function getCoords(lat, lng) {
+    //     console.log(lat) // current positions!!
+    //     console.log(lng) 
+        
+    //     // database.ref('parks').on('child_added', function (snapshot) {
+    //     //     for (var i = 0; i<snapshot.length; i++){
+    //     //         pLocationLat= snapshot.val().parkLat;
+    //     //         pLocationLng= snapshot.val().parkLng;
+    //     //         pLocation = (pLocationLat, pLocationLng);//lon2
+    //     //         currentLocation= (lat, lng); //lon1
+    //     //         dlon = pLocationLng - lng;
+    //     //         dlat = pLocationLat - lat;
+    //     //         a = (sin(dlat/2))^2 + cos(lat) * cos(pLocation) * (sin(dlon/2))^2;
+    //     //         c = 2 * atan2 ( sqrt(a), sqrt(1-a));
+    //     //         distance = 6371 * c;
+    //     //         milesAway = distance * (.62137119);
+    //     //         $("#miles-away").text(milesAway);
 
-        // $("#park-name").text(snapshot.val().parkName);
-        database.ref('parks').on('child_added', function (snapshot) {
-            console.log("in db " + snapshot.val().parkLat); /// this is printing for every entry in db.
-        })
+                
+    //     //     }
+            
+    //         console.log(snapshot.parkLat)
+    //         //take lat and lng current and lat lng of park snapshot.val().parkLat
+    //     })
 
-    }
+    // }
 
 
 
@@ -126,45 +141,45 @@ function initMap() {
     var markers = [
 
 
-        {
-            coords: {
-                lat: 30.291163,
-                lng: -97.787247
-            },
-            title: 'Red Bud Isle'
+        // {
+        //     coords: {
+        //         lat: 30.291163,
+        //         lng: -97.787247
+        //     },
+        //     title: 'Red Bud Isle'
 
-        },
+        // },
 
-        {
+        // {
 
-            coords: {
-                lat: 30.249140,
-                lng: -97.736471
-            },
-            title: 'Norwood Estates Dog Park'
+        //     coords: {
+        //         lat: 30.249140,
+        //         lng: -97.736471
+        //     },
+        //     title: 'Norwood Estates Dog Park'
 
-        },
+        // },
 
-        {
+        // {
 
-            coords: {
-                lat: 30.263507,
-                lng: -97.753170
-            },
-            title: 'Auditorium Shores Dog Park'
+        //     coords: {
+        //         lat: 30.263507,
+        //         lng: -97.753170
+        //     },
+        //     title: 'Auditorium Shores Dog Park'
 
-        },
+        // },
 
-        {
+        // {
 
-            coords: {
-                lat: 30.266909,
-                lng: -97.772870
-            },
-            title: 'Zilker Metropolitan'
+        //     coords: {
+        //         lat: 30.266909,
+        //         lng: -97.772870
+        //     },
+        //     title: 'Zilker Metropolitan'
 
 
-        }
+        // }
     ];
 
     database.ref('parks').on("child_added", function (childSnapshot) {
@@ -230,8 +245,8 @@ function initMap() {
             content: '<div id="infoWindow">'
                 + '<div id="bodyContent">'
                     + '<h6>' + marker.title + '</h6>'
-                    + '<p>' + '10' + ' miles away</p>'
-                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'" + "More Info" + "</a>"
+                    + '<p>' + '<span class="miles-away"></span>' + ' miles away</p>'
+                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'>" + "More Info" + "</a>"
                 + '</div>'
         });
 
@@ -239,20 +254,68 @@ function initMap() {
 
         marker.addListener('click', function(e) {
             
-
-            // console.log("marker click")
             infoWindow.open(map, marker);
+             lat1 = parseFloat(e.latLng.lat());
+             lon1 = parseFloat(e.latLng.lng());
+             lat2 = positionLat;
+             lon2 = positionLng;
+            
+            var miles;
+             function calcDistance(lat1, lon1, lat2, lon2) 
+                {
+                  var R = 6371; // km
+                  var dLat = toRad(lat2-lat1);
+                  var dLon = toRad(lon2-lon1);
+                  var lat1 = toRad(lat1);
+                  var lat2 = toRad(lat2);
+            
+                  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+                  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                  var d = R * c; // in kilometers
+                  miles = (0.62137119 * d);
+                    miles = miles.toFixed(2);
+                $(".miles-away").text(miles);
 
-            $('#checkIn').bind('click', function (e) {
-                // console.log("check in")
-                data.lat = e.latLng.lat();
-                data.lng = e.latLng.lng();
-                addToFirebase(data);
-            });
+                 
+                }
+                calcDistance(lat1, lon1, lat2, lon2);
+            
+                // Converts numeric degrees to radians
+                function toRad(x) 
+                {
+                    return x * Math.PI / 180;
+                }
+            
+                // currentLocation= (positionLat, positionLng);
+                // pLocationLat1 = parseFloat(e.latLng.lat());
+                // pLocationLng1 = parseFloat(e.latLng.lng());
+                // dlon = pLocationLng - positionLng;
+                // dlat = pLocationLat - positionLat;
+                // var a = (Math.sin(dlat/2))^2 + Math.cos(positionLat) * Math.cos(pLocationLat) * (Math.sin(dlon/2))^2;
+                // console.log("a", a);
+                // var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                // console.log("c", c);
+                // var distance = 6371 * c;
+                // console.log("distance", distance);
+                // var milesAway = distance * .62137119;
+                // console.log("milesAway type: " + typeof milesAway);
+                // console.log("miles away", milesAway);
+                // $("#miles-away").text(milesAway);
+            
+                
+
+
+            // $('#checkIn').bind('click', function (e) {
+            //     // console.log("check in")
+            //     data.lat = e.latLng.lat();
+            //     data.lng = e.latLng.lng();
+            //     addToFirebase(data);
+            // });
         });
 
 // Jenni's work on heat map
-// var map;
+
 // var heatmap;
 
 
@@ -271,7 +334,7 @@ function initMap() {
 //         return [new google.maps.LatLng(lat, lng)]
 //     });
    
-// }    
+ }    
 
 
 
@@ -284,7 +347,7 @@ function initMap() {
 //         radius: 16
 //     });
 
-// } // end init map 
+ }  //end init map 
 
 
 
@@ -386,5 +449,5 @@ function initMap() {
 //             }
 //         });
 //     });
-}
+//    }
 

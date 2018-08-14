@@ -16,6 +16,35 @@ $(document).ready(function () {
 
     var keyNeeded = sessionStorage.getItem("key")
 
+    // miles away stuff
+//     var positionLat = 0;
+//     var positionLng = 0;
+
+//  if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(function (position) {
+
+//             lat= position.coords.latitude,
+//             lng= position.coords.longitude
+//         });}
+
+//         positionLat = position.coords.latitude;
+//         positionLng = position.coords.longitude;
+//         console.log("lat: " + positionLat);
+//         console.log("lng: " + positionLng);
+
+        // getCoords(positionLat, positionLng);
+        // function getCoords(lat, lng) {
+        //     console.log(lat) 
+        //     console.log(lng) 
+
+    
+            // $("#park-name").text(snapshot.val().parkName);
+        //     database.ref('parks').on('child_added', function (snapshot) {
+        //         console.log("in db " + snapshot.val().parkLat); /// this is printing for every entry in db.
+        //     })
+    
+        // }
+//end of miles away stuff
 
 
     database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
