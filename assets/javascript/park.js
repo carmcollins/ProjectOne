@@ -18,9 +18,9 @@ $(document).ready(function () {
 
 
 
+
     database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
         $("#park-name").text(snapshot.val().parkName);
-        $("#miles-away").text(snapshot.val().milesAway);
         $("#recent-check-ins").text(snapshot.val().checkIns);
         $("#leash").text(snapshot.val().leashCheck);
         $("#fence").text(snapshot.val().fenceCheck);
@@ -29,7 +29,9 @@ $(document).ready(function () {
         $("#picnic").text(snapshot.val().picnicCheck);
         $("#water").text(snapshot.val().waterCheck);
 
-        var checkIns= snapshot.val().checkIns;
+
+        // checkin info starts here
+        var checkIns = snapshot.val().checkIns;
 
         $(document).on("click", ".check-in", function (event) {
             event.preventDefault()

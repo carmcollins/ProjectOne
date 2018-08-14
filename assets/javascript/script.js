@@ -40,8 +40,8 @@ function initMap() {
 
     });
 
-    var positionLat = 0;
-    var positionLng = 0;
+    var positionLat;
+    var positionLng;
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -54,7 +54,7 @@ function initMap() {
             positionLat = position.coords.latitude;
             positionLng = position.coords.longitude;
 
-            getCoords(positionLat, positionLng);
+            //getCoords(positionLat, positionLng);
 
             //set icon image
             var image = 'assets/photos/star32.png';
@@ -80,15 +80,8 @@ function initMap() {
         handleLocationError(false, infoWindow, map.getCenter());
     }
 
-    function getCoords(lat, lng) {
-        console.log(lat)
-        console.log(lng)
 
-        database.ref('parks').on('child_added', function (snapshot) {
-            console.log("in db " + snapshot.val().parkLat); /// this is printing for every entry in db.
-        })
-
-    }
+    // }
 
 
 
@@ -103,6 +96,7 @@ function initMap() {
 
     // Add marker array
     var markers = [];
+
 
     // Reference parks in firebase
     database.ref('parks').on("child_added", function (childSnapshot) {
@@ -162,18 +156,56 @@ function initMap() {
 
             content: '<div id="infoWindow">'
                 + '<div id="bodyContent">'
-                + '<h6>' + marker.title + '</h6>'
-                + '<p>' + '10' + ' miles away</p>'
-                + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'>" + "More Info" + "</a>"
+
+                    + '<h6>' + marker.title + '</h6>'
+                    + '<p>' + '<span class="miles-away"></span>' + ' miles away</p>'
+                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'>" + "More Info" + "</a>"
                 + '</div>'
         });
 
-
-        // Listener to open infoWindow
-        marker.addListener('click', function (e) {
-            infoWindow.open(map, marker);
+        $(document).on("click", ".more-info", function () {
+            var key = $(this).attr("data-key");
+            console.log($(this).attr("data-key"));
+            sessionStorage.setItem("key", key);
         });
 
+        
+
+        marker.addListener('click', function(e) {
+            
+            infoWindow.open(map, marker);
+             lat1 = parseFloat(e.latLng.lat());
+             lon1 = parseFloat(e.latLng.lng());
+             lat2 = positionLat;
+             lon2 = positionLng;
+            
+            var miles;
+             function calcDistance(lat1, lon1, lat2, lon2) 
+                {
+                  var R = 6371; // km
+                  var dLat = toRad(lat2-lat1);
+                  var dLon = toRad(lon2-lon1);
+                  var lat1 = toRad(lat1);
+                  var lat2 = toRad(lat2);
+            
+                  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+                  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                  var d = R * c; // in kilometers
+                  miles = (0.62137119 * d);
+                    miles = miles.toFixed(2);
+                $(".miles-away").text(miles);
+
+                 
+                }
+                calcDistance(lat1, lon1, lat2, lon2);
+            
+                // Converts numeric degrees to radians
+                function toRad(x) 
+                {
+                    return x * Math.PI / 180;
+                }
+            
 
         // Create heat map
         var heatmapData = [
@@ -190,6 +222,10 @@ function initMap() {
         heatmap.setMap(map);
 
 
+
+
+
     } // End createMarker
+
 
 } // End initMap
