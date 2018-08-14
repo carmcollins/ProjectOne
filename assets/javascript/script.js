@@ -250,6 +250,12 @@ function initMap() {
                 + '</div>'
         });
 
+        $(document).on("click", ".more-info", function () {
+            var key = $(this).attr("data-key");
+            console.log($(this).attr("data-key"));
+            sessionStorage.setItem("key", key);
+        });
+
         
 
         marker.addListener('click', function(e) {
