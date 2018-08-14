@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
-    var checkIns = 0;
+   
 
     //when submit button is clicked, push form info to database
     $("#submit-btn").on("click", function (event) {
