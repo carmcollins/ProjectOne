@@ -13,11 +13,11 @@ $(document).ready(function () {
     var database = firebase.database();
 
     var keyNeeded = sessionStorage.getItem("key")
-    console.log("keyNeeded: " , keyNeeded);
-    
-    database.ref('parks').child(keyNeeded).on('value', function(snapshot){
-        console.log(snapshot.val().parkName);
-    
+    console.log("keyNeeded: ", keyNeeded);
+
+    database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
+        // console.log(snapshot.val().parkName);
+
         $("#park-name").text(snapshot.val().parkName);
         $("#miles-away").text(snapshot.val().milesAway);
         $("#recent-check-ins").text(snapshot.val().checkIns);
@@ -28,6 +28,6 @@ $(document).ready(function () {
         $("#picnic").text(snapshot.val().picnicCheck);
         $("#water").text(snapshot.val().waterCheck);
 
-     });
+    });
 
-}); 
+});

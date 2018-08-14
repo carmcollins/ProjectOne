@@ -28,43 +28,37 @@ $(document).ready(function () {
         var leashCheck = false;
         if ($("#leash-check").is(":checked")) {
             leashCheck = ("Off-Leash");
-        }
-        else {
+        } else {
             leashCheck = ("Requires Leash");
         }
         var fenceCheck = false;
         if ($("#fence-check").is(":checked")) {
             fenceCheck = ("Fenced In");
-        }
-        else {
+        } else {
             fenceCheck = ("Not Fenced-In");
         }
         var swimCheck = false;
         if ($("#swim-check").is(":checked")) {
             swimCheck = ("Swimming Hole");
-        }
-        else {
+        } else {
             swimCheck = ("No Swimming Hole");
         }
         var shadeCheck = false;
         if ($("#shade-check").is(":checked")) {
             shadeCheck = ("Shaded Areas");
-        }
-        else {
+        } else {
             shadeCheck = ("No Shaded Areas");
         }
         var picnicCheck = false;
         if ($("#picnic-check").is(":checked")) {
             picnicCheck = ("Picnic Tables");
-        }
-        else {
+        } else {
             picnicCheck = ("No Picnic Tables");
         }
         var waterCheck = false;
         if ($("#water-check").is(":checked")) {
             waterCheck = ("Water Fountains");
-        }
-        else {
+        } else {
             waterCheck = ("No Water Fountains");
         }
 
@@ -86,7 +80,7 @@ $(document).ready(function () {
         //clear input boxes and reset the checkboxes
         $("#park-name-input").val("");
         $("input[type=checkbox]").prop('checked', false);
-        
+
 
 
     });
@@ -110,10 +104,10 @@ $(document).ready(function () {
         newBodyDiv.append(newMediaBodyDiv);
         newMediaBodyDiv.html(
             "<h5 class='mt-0'>" + parkName +
-            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" + 
+            "<h6 class='card-subtitle mb-2 text-muted'>" + milesAway + " miles away" + "<br>" + "<br>" +
             "<form method='get' action='park.html'>" +
-            "<button type='submit button' class='btn btn-primary more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
-            + "</form>"
+            "<button type='submit button' class='btn btn-primary more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" +
+            "</form>"
         )
         //$(".more-info-" + parkKey).attr("key", parkKey);
         $("#listWrapper").append(newCardDiv);
@@ -127,8 +121,6 @@ $(document).ready(function () {
             var key = $(this).attr("data-key");
             console.log($(this).attr("data-key"));
             sessionStorage.setItem("key", key);
-
-            
         });
 
     });
