@@ -74,16 +74,12 @@ function initMap() {
             handleLocationError(true, infoWindow, map.getCenter());
         });
 
-
     } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
 
-
     // }
-
-
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
@@ -93,10 +89,8 @@ function initMap() {
         infoWindow.open(map);
     }
 
-
     // Add marker array
     var markers = [];
-
 
     // Reference parks in firebase
     database.ref('parks').on("child_added", function (childSnapshot) {
@@ -128,16 +122,12 @@ function initMap() {
 
     }); 
 
-
-
     // Create markers
     for (var j = 0; j < markers.length; j++) {
         createMarker(j);
     };
 
     function createMarker(i) {
-
-
 
         var iconImage = "assets/photos/paw24.png"
 
@@ -168,8 +158,6 @@ function initMap() {
             console.log($(this).attr("data-key"));
             sessionStorage.setItem("key", key);
         });
-
-        
 
         marker.addListener('click', function(e) {
             
@@ -206,12 +194,10 @@ function initMap() {
                     return x * Math.PI / 180;
                 }
             
-
         // Create heat map
         var heatmapData = [
             new google.maps.LatLng(markers[i].coords.lat, markers[i].coords.lng)
         ]
-
 
         var heatmap = new google.maps.visualization.HeatmapLayer({
             data: heatmapData,
@@ -221,11 +207,6 @@ function initMap() {
         
         heatmap.setMap(map);
 
-
-
-
-
     } // End createMarker
-
 
 } // End initMap
