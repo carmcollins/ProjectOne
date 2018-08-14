@@ -11,7 +11,7 @@ var config = {
  
 var database = firebase.database();
 console.log(database);
-var clicks = database.ref('clicks');
+//var clicks = database.ref('clicks');
 //Data object to be written to Firebase.
 
 var data = {
@@ -125,6 +125,7 @@ function initMap() {
         var title = childSnapshot.val().parkName;
         var latitude = parseFloat(childSnapshot.val().parkLat);
         var longitude = parseFloat(childSnapshot.val().parkLng);
+        var parkKey = childSnapshot.key;
         console.log(title);
         console.log(latitude);
         console.log(longitude);
@@ -134,7 +135,8 @@ function initMap() {
                 lat:latitude,
                 lng:longitude
             },
-            title: title
+            title: title,
+            parkKey: parkKey
         }
     
         markers.push(newPark);
@@ -176,11 +178,11 @@ function initMap() {
                 + '<div id="bodyContent">'
                     + '<h6>' + marker.title + '</h6>'
                     + '<p>' + '10' + ' miles away</p>'
-                    + '<form method="get" action="park.html">'
-                        + "<button type='button' class='btn btn-success btn-sm more-info' data-key='" + marker.parkKey + "'>More Info</button>" 
-                    + '</form>'
+                    + "<a href='park.html' class='btn btn-success btn-sm more-info' data-key='" + markers[i].parkKey + "'" + "More Info" + "</a>"
                 + '</div>'
         });
+
+        
 
         marker.addListener('click', function(e) {
             
