@@ -10,14 +10,12 @@ $(document).ready(function () {
         storageBucket: "",
         messagingSenderId: "542472737315"
     };
+
     firebase.initializeApp(config);
 
     var database = firebase.database();
 
     var keyNeeded = sessionStorage.getItem("key")
-
-
-
 
     database.ref('parks').child(keyNeeded).on('value', function (snapshot) {
         $("#park-name").text(snapshot.val().parkName);
@@ -28,14 +26,11 @@ $(document).ready(function () {
         $("#shade").text(snapshot.val().shadeCheck);
         $("#picnic").text(snapshot.val().picnicCheck);
         $("#water").text(snapshot.val().waterCheck);
-        var parkLat = parseFloat(snapshot.val().parkLat);
-        var parkLng = parseFloat(snapshot.val().parkLng);
 
-
-        // checkin info starts here
         var checkIns = snapshot.val().checkIns;
 
         $(document).on("click", ".check-in", function (event) {
+
             event.preventDefault()
             checkIns++;
             $(".check-in").hide();
@@ -51,6 +46,7 @@ $(document).ready(function () {
         });
 
         $(document).on("click", ".check-out", function (event) {
+            
             event.preventDefault()
             checkIns--;
             $(".check-out").hide();
