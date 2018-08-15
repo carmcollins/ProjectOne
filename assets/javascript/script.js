@@ -193,6 +193,7 @@ function initMap() {
                 {
                     return x * Math.PI / 180;
                 }
+            });
             
         // Create heat map
         var heatmapData = [
