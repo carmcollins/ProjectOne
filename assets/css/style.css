@@ -22,12 +22,16 @@
     background-color: #4CAF50;
 }
 
+.tailwag {
+    width: 60px;
+}
+
 .wrapper {
     padding-top: 77px;
 }
 
 #map {
-    height: 750px;
+    height: 620px;
     width: 100%;
     background-color: gray;
 }

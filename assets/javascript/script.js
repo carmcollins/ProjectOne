@@ -6,13 +6,8 @@ var config = {
     storageBucket: "tailwag-fa1c7.appspot.com",
     messagingSenderId: "542472737315"
 };
-// firebase.initializeApp(config);
 
 var database = firebase.database();
-
-
-//CREATE INITIAL MAP WITH MARKERS AND HEATMAP
-//==================================================================================
 
 function initMap() {
 
@@ -43,7 +38,6 @@ function initMap() {
     var positionLat;
     var positionLng;
 
-    // Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = {
@@ -54,9 +48,6 @@ function initMap() {
             positionLat = position.coords.latitude;
             positionLng = position.coords.longitude;
 
-            //getCoords(positionLat, positionLng);
-
-            //set icon image
             var image = 'assets/photos/star32.png';
 
             var marker = new google.maps.Marker({
@@ -75,11 +66,8 @@ function initMap() {
         });
 
     } else {
-        // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-
-    // }
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
@@ -89,16 +77,15 @@ function initMap() {
         infoWindow.open(map);
     }
 
-    // Add marker array
     var markers = [];
 
-    // Reference parks in firebase
     database.ref('parks').on("child_added", function (childSnapshot) {
         var title = childSnapshot.val().parkName;
         var checkIns = childSnapshot.val().checkIns;
         var latitude = parseFloat(childSnapshot.val().parkLat);
         var longitude = parseFloat(childSnapshot.val().parkLng);
         var parkKey = childSnapshot.key;
+
         console.log(title);
         console.log(latitude);
         console.log(longitude);
@@ -122,14 +109,13 @@ function initMap() {
 
     }); 
 
-    // Create markers
     for (var j = 0; j < markers.length; j++) {
         createMarker(j);
     };
 
     function createMarker(i) {
 
-        var iconImage = "assets/photos/paw24.png"
+        var iconImage = "assets/photos/paw16.png"
 
         var marker = new google.maps.Marker({
             position: markers[i].coords,
@@ -141,7 +127,6 @@ function initMap() {
         marker.setIcon(iconImage);
         marker.setMap(map);
 
-        // Create info window to pop up over marker
         var infoWindow = new google.maps.InfoWindow({
 
             content: '<div id="infoWindow">'
@@ -168,36 +153,33 @@ function initMap() {
              lon2 = positionLng;
             
             var miles;
-             function calcDistance(lat1, lon1, lat2, lon2) 
-                {
-                  var R = 6371; // km
-                  var dLat = toRad(lat2-lat1);
-                  var dLon = toRad(lon2-lon1);
-                  var lat1 = toRad(lat1);
-                  var lat2 = toRad(lat2);
             
-                  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-                  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-                  var d = R * c; // in kilometers
-                  miles = (0.62137119 * d);
-                    miles = miles.toFixed(2);
+            function calcDistance(lat1, lon1, lat2, lon2) {
+                var R = 6371;
+                var dLat = toRad(lat2-lat1);
+                var dLon = toRad(lon2-lon1);
+                var lat1 = toRad(lat1);
+                var lat2 = toRad(lat2);
+        
+                var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                var d = R * c;
+                miles = (0.62137119 * d);
+                miles = miles.toFixed(2);
                 $(".miles-away").text(miles);
+            };
 
-                 
-                }
-                calcDistance(lat1, lon1, lat2, lon2);
+            calcDistance(lat1, lon1, lat2, lon2);
             
-                // Converts numeric degrees to radians
-                function toRad(x) 
-                {
-                    return x * Math.PI / 180;
-                }
+            function toRad(x) {
+                return x * Math.PI / 180;
+            };
+        });
             
-        // Create heat map
         var heatmapData = [
             new google.maps.LatLng(markers[i].coords.lat, markers[i].coords.lng)
-        ]
+        ];
 
         var heatmap = new google.maps.visualization.HeatmapLayer({
             data: heatmapData,
@@ -207,6 +189,6 @@ function initMap() {
         
         heatmap.setMap(map);
 
-    } // End createMarker
+    }; // End createMarker
 
-} // End initMap
+}; // End initMap

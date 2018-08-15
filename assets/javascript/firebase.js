@@ -1,4 +1,3 @@
-//initialize firebase    
 var config = {
     apiKey: "AIzaSyBIdeaYIvc47L5bC-9iBvfqZIu8Mt7BAcs",
     authDomain: "tailwag-fa1c7.firebaseapp.com",
@@ -17,11 +16,8 @@ $(document).ready(function () {
     $("#submit-btn").show();
     $("#submitted-btn").hide();
 
-    //when submit button is clicked, push form info to database
     $("#submit-btn").on("click", function (event) {
         event.preventDefault()
-        $("#submit-btn").hide();
-        $("#submitted-btn").show();
 
         if (!$("#park-name-input").val()) {
             $(".error-message").text("Please enter a park name!");
@@ -86,18 +82,19 @@ $(document).ready(function () {
                 checkIns: checkIns
 
             });
-            //clear input boxes and reset the checkboxes
+
             $("#park-name-input").val("");
             $("input[type=checkbox]").prop('checked', false);
             $(".error-message").text("");
+
+            $("#submit-btn").hide();
+            $("#submitted-btn").show();
         }
 
     });
 
-    //push park info to dog park page
     database.ref('parks').on("child_added", function (childSnapshot) {
         var parkName = childSnapshot.val().parkName;
-        var milesAway = 0; //need to figure this one out
         var parkKey = childSnapshot.key;
 
         newCardDiv = $("<div class='card card-body mt-3 mb-3'>");
@@ -118,12 +115,8 @@ $(document).ready(function () {
             "<button type='submit button' class='btn btn-success more-info' data-key='" + parkKey + "'" + ">" + "More Info" + "</button>" 
             + "</form>"
         )
-        //$(".more-info-" + parkKey).attr("key", parkKey);
+
         $("#listWrapper").append(newCardDiv);
-
-        //when more info is clicked on list page populate the park.html page
-
-        //});
 
         $(document).on("click", ".more-info", function () {
             var key = $(this).attr("data-key");
