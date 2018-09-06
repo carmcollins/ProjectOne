@@ -14,8 +14,4 @@ Dog owners can also add their own dog park to the map by simply entering a name,
 
 Our hope is that Tailwag helps dog owners find and share new spaces and places to hang out with their furry friends. Keep wagging!
 
-<img src="assets/photos/app1.png" width="300px">
-<img src="assets/photos/app2.png" width="300px">
-<img src="assets/photos/app3.png" width="300px">
-<img src="assets/photos/app4.png" width="300px">
-<img src="assets/photos/app5.png" width="300px">
+<img src="assets/photos/app1.png" width="250px"> <img src="assets/photos/app2.png" width="250px"> <img src="assets/photos/app3.png" width="250px"> <img src="assets/photos/app4.png" width="250px"> <img src="assets/photos/app5.png" width="250px">
